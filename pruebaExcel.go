@@ -6,40 +6,36 @@ import (
 	"os"
 )
 func main() {
-	csvReaderRow()
+	rows := readSample()
+	for i := 1; i < len(rows); i++{
+		
+		fmt.Printf("Row: %s \n", rows[0])
+		
+	}
 }
-func csvReaderRow() {
-	// Open the file
-	recordFile, err := os.Open("registroCamion.csv")
-	if err != nil {
-		fmt.Println("An error encountered ::", err)
-		return
-	}
 
-	// Setup the reader
-	reader := csv.NewReader(recordFile)
+func readSample() [][]string {
+    f, err := os.Open("registroCamion.csv")
+    if err != nil {
+        log.Fatal(err)
+    }
+    rows, err := csv.NewReader(f).ReadAll()
+    f.Close()
+    if err != nil {
+        log.Fatal(err)
+    }
+    return rows
+}
 
-	// Read the records
-	header, err := reader.Read()
-	if err != nil {
-		fmt.Println("An error encountered ::", err)
-		return
-	}
-	fmt.Printf("Headers : %v \n", header)
 
-	for i:= 0 ;; i = i + 1 {
-		record, err := reader.Read()
-		if err == io.EOF {
-			break // reached end of the file
-		} else if err != nil {
-			fmt.Println("An error encountered ::", err)
-			return
-		}
-
-		fmt.Printf("Row %d : %v \n", i, record[0])
-	}
-
-	// Note: Each time Read() is called, it reads the next line from the file
-	// r1, _ := reader.Read() // Reads the first row, useful for headers
-	// r2, _ := reader.Read() // Reads the second row
+func writeChanges(rows [][]string) {
+    f, err := os.Create("registroCamion.csv")
+    if err != nil {
+        log.Fatal(err)
+    }
+    err = csv.NewWriter(f).WriteAll(rows)
+    f.Close()
+    if err != nil {
+        log.Fatal(err)
+    }
 }
