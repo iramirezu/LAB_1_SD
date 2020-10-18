@@ -1,4 +1,4 @@
-package main
+package chatCamion
 
 import (
 	"log"
