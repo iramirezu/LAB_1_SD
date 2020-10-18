@@ -83,7 +83,7 @@ func main() {
 	CrearCamion(0)
 	CrearCamion(1)
 	CrearCamion(2)
-	while(true){
+	for {
 		time.Sleep(5)
 	}
 }
