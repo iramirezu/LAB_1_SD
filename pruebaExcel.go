@@ -2,7 +2,7 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
-	"io"
+	"log"
 	"os"
 )
 func main() {
@@ -10,7 +10,7 @@ func main() {
 	for i := 1; i < len(rows); i++{
 		
 		fmt.Printf("Row: %s \n", rows[0])
-		
+
 	}
 }
 
