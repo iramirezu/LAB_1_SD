@@ -8,7 +8,9 @@ import (
 	"github.com/PrestigioExpress/ServicioCamion/chatCamion"
 )
 
-func CrearCamion(numCamion int){
+func CrearCamion(tipoCamion int){
+	nombreCamion := ""
+
 	if tipoCamion == 0 {
 		nombreCamion := "Camion Retail 1"
 		log.Printf("Camion Retail 1")
