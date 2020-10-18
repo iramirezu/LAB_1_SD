@@ -38,21 +38,19 @@ func (c *servicioCamionClient) FuncHolaMUndo(ctx context.Context, in *MensajeReq
 }
 
 // ServicioCamionServer is the server API for ServicioCamion service.
-// All implementations must embed UnimplementedServicioCamionServer
+// All implementations should embed UnimplementedServicioCamionServer
 // for forward compatibility
 type ServicioCamionServer interface {
 	FuncHolaMUndo(context.Context, *MensajeRequest) (*MensajeReply, error)
-	mustEmbedUnimplementedServicioCamionServer()
 }
 
-// UnimplementedServicioCamionServer must be embedded to have forward compatible implementations.
+// UnimplementedServicioCamionServer should be embedded to have forward compatible implementations.
 type UnimplementedServicioCamionServer struct {
 }
 
 func (UnimplementedServicioCamionServer) FuncHolaMUndo(context.Context, *MensajeRequest) (*MensajeReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FuncHolaMUndo not implemented")
 }
-func (UnimplementedServicioCamionServer) mustEmbedUnimplementedServicioCamionServer() {}
 
 // UnsafeServicioCamionServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to ServicioCamionServer will

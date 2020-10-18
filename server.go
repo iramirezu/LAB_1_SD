@@ -16,7 +16,7 @@ func main()  {
 
 	fmt.Println("Comenzando ejecucion de sistema Logistica-Camion")
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 9000))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 4040))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
