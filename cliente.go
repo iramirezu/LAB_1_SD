@@ -78,9 +78,9 @@ func writeChanges(rows [][]string) {
 
 func main() {
 
-	go CrearCamion(0)
-	go CrearCamion(1)
-	go CrearCamion(2)
+	CrearCamion(0)
+	CrearCamion(1)
+	CrearCamion(2)
 
 }
 
