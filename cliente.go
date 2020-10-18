@@ -36,13 +36,49 @@ func CrearCamion(tipoCamion int){
 	if err != nil {
 		log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
 	}
-	fmt.Println("MensajeReply desde Logistica: %s", response.Respuesta1)
+	fmt.Println("MensajeReply desde Logistica: " + response.Respuesta1)
+	
+	rows := readSample()
+	for i := 1; i < len(rows); i++{
+		rows[i][2] := "0"
+	}
+
+	writeChanges(rows)
 }
+
+func readSample() [][]string {
+    f, err := os.Open("registroCamion.csv")
+    if err != nil {
+        log.Fatal(err)
+    }
+    rows, err := csv.NewReader(f).ReadAll()
+    f.Close()
+    if err != nil {
+        log.Fatal(err)
+    }
+    return rows
+}
+
+
+func writeChanges(rows [][]string) {
+    f, err := os.Create("registroCamion.csv")
+    if err != nil {
+        log.Fatal(err)
+    }
+    err = csv.NewWriter(f).WriteAll(rows)
+    f.Close()
+    if err != nil {
+        log.Fatal(err)
+    }
+}
+
+
 func main() {
 
-	fmt.Println("creanco camion 1")
-	CrearCamion(0)
+	go CrearCamion(0)
 	go CrearCamion(1)
 	go CrearCamion(2)
 
 }
+
+
