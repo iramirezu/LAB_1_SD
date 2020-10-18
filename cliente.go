@@ -1,6 +1,9 @@
 package main;
 
 import (
+	"encoding/csv"
+	"os"
+	
 	"log"
 	"fmt"
 	"golang.org/x/net/context"

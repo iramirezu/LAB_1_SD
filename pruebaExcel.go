@@ -2,8 +2,8 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
-	"log"
 	"os"
+	"log"
 )
 func main() {
 	rows := readSample()
