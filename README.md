@@ -14,13 +14,17 @@ export PATH=$PATH:/usr/local/go/bin
 $ go get -u github.com/golang/protobuf
 $ go get -u github.com/golang/protobuf/proto
 
-$ protoc --go_out=. *.proto
 
 
 # Generacion de gRPC:
 protoc --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
     helloworld/helloworld.proto
+## Camion
+protoc --go_out=. --go_opt=paths=source_relative     --go-grpc_out=. --go-grpc_opt=paths=source_relative     chatCamion/chatCamion.proto
+
+# Luego en carpeta que contiene server
+go mod init github.com/PrestigioExpress/ServicioCamion
 
 
 # Maquinas Usadas:
