@@ -17,9 +17,9 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := chat.NewServicioCamionClient(conn)
+	c := chatCamion.NewServicioCamionClient(conn)
 
-	response, err := c.FuncHolaMUndo(context.Background(), &chat.MensajeRequest{Mensaje1: "Hola desde Camion"})
+	response, err := c.FuncHolaMUndo(context.Background(), &chatCamion.MensajeRequest{Mensaje1: "Hola desde Camion"})
 	if err != nil {
 		log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
 	}
