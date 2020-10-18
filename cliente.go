@@ -3,7 +3,7 @@ package main;
 import (
 	"encoding/csv"
 	"os"
-	
+
 	"log"
 	"fmt"
 	"golang.org/x/net/context"
@@ -43,7 +43,7 @@ func CrearCamion(tipoCamion int){
 	
 	rows := readSample()
 	for i := 1; i < len(rows); i++{
-		rows[i][2] := "0"
+		rows[i][2] = "0"
 	}
 
 	writeChanges(rows)
