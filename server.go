@@ -25,7 +25,7 @@ func main()  {
 
 	grpcServer := grpc.NewServer()
 
-	chatCamion.RegisterServicioCamionServer(grpcServer, s)
+	chatCamion.RegisterServicioCamionServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
