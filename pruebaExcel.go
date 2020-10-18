@@ -8,9 +8,7 @@ import (
 func main() {
 	rows := readSample()
 	for i := 1; i < len(rows); i++{
-		
 		fmt.Printf("Row: %s \n", rows[i][0])
-
 	}
 }
 
