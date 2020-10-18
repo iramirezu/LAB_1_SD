@@ -93,5 +93,5 @@ var _ServicioCamion_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/chatCamion.proto",
+	Metadata: "chatCamion/chatCamion.proto",
 }
