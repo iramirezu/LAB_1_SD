@@ -7,11 +7,11 @@ service ServicioCamion {
 }
 
 message MensajeRequest {
-    string name = 1;
+    string mensaje1 = 1;
 }
 
 message MensajeReply {
-    string name = 1;
+    string respuesta1 = 1;
 }
 
 
