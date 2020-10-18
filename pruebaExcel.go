@@ -1,8 +1,9 @@
 package main
 import (
-  "encoding/csv"
-  "fmt"
-  "os"
+	"encoding/csv"
+	"fmt"
+	"io"
+	"os"
 )
 func main() {
 	csvReaderRow()
