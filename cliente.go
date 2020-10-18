@@ -4,6 +4,8 @@ import (
 	"encoding/csv"
 	"os"
 
+	"time"
+
 	"log"
 	"fmt"
 	"golang.org/x/net/context"
@@ -81,7 +83,9 @@ func main() {
 	CrearCamion(0)
 	CrearCamion(1)
 	CrearCamion(2)
-
+	while(true){
+		time.Sleep(5)
+	}
 }
 
 
