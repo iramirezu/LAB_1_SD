@@ -2,6 +2,7 @@ package main;
 
 import (
 	"log"
+	"fmt"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
@@ -13,13 +14,13 @@ func CrearCamion(tipoCamion int){
 
 	if tipoCamion == 0 {
 		nombreCamion = "Camion Retail 1"
-		log.Printf("Camion Retail 1")
+		fmt.Println("Camion Retail 1")
 	} else if tipoCamion == 1 {
 		nombreCamion = "Camion Retail 2"
-		log.Printf("Camion Retail 2")
+		fmt.Println("Camion Retail 2")
 	} else{ 
 		nombreCamion = "Camion Normal 1"
-		log.Printf("Camion Normal 1")
+		fmt.Println("Camion Normal 1")
 	}
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":4040", grpc.WithInsecure())
@@ -35,7 +36,7 @@ func CrearCamion(tipoCamion int){
 	if err != nil {
 		log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
 	}
-	log.Printf("MensajeReply desde Logistica: %s", response.Respuesta1)
+	fmt.Println("MensajeReply desde Logistica: %s", response.Respuesta1)
 }
 func main() {
 
