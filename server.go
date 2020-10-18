@@ -4,10 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"golang.org/x/net/context"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 
 	"github.com/PrestigioExpress/ServicioCamion/chatCamion"
 )
@@ -27,7 +25,7 @@ func main()  {
 
 	grpcServer := grpc.NewServer()
 
-	chat.RegisterServicioCamionServer(grpcServer, &s)
+	chatCamion.RegisterServicioCamionServer(grpcServer, &s)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
