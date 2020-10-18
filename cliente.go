@@ -12,13 +12,13 @@ func CrearCamion(tipoCamion int){
 	nombreCamion := ""
 
 	if tipoCamion == 0 {
-		nombreCamion := "Camion Retail 1"
+		nombreCamion = "Camion Retail 1"
 		log.Printf("Camion Retail 1")
 	} else if tipoCamion == 1 {
-		nombreCamion := "Camion Retail 2"
+		nombreCamion = "Camion Retail 2"
 		log.Printf("Camion Retail 2")
 	} else{ 
-		nombreCamion := "Camion Normal 1"
+		nombreCamion = "Camion Normal 1"
 		log.Printf("Camion Normal 1")
 	}
 	var conn *grpc.ClientConn
