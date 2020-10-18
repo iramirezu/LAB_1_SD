@@ -40,7 +40,8 @@ func CrearCamion(tipoCamion int){
 }
 func main() {
 
-	go CrearCamion(0)
+	fmt.Println("creanco camion 1")
+	CrearCamion(0)
 	go CrearCamion(1)
 	go CrearCamion(2)
 
