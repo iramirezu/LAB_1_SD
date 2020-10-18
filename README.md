@@ -7,6 +7,8 @@ export GO111MODULE=on  # Enable module mode
 go get github.com/golang/protobuf/protoc-gen-go \ google.golang.org/grpc/cmd/protoc-gen-go-grpc
 
 export PATH="$PATH:$(go env GOPATH)/bin"
+export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:/usr/local/go/bin
 
 # Instalacion de Protobuf
 $ go get -u github.com/golang/protobuf
