@@ -30,7 +30,7 @@ func CrearCamion(tipoCamion int){
 
 	c := chatCamion.NewServicioCamionClient(conn)
 
-	mensajeCamion := "Hola desde Camion: " + nombreCamion
+	mensajeCamion := "Hola desde Camion: " + nombreCamion + ""
 	response, err := c.FuncHolaMUndo(context.Background(), &chatCamion.MensajeRequest{Mensaje1: mensajeCamion})
 	if err != nil {
 		log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
