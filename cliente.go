@@ -64,7 +64,7 @@ func readSample() [][]string {
 
 
 func writeChanges(rows [][]string) {
-    f, err := os.Create("registroCamion.csv")
+    f, err := os.Create("registroCamion2.csv")
     if err != nil {
         log.Fatal(err)
     }
