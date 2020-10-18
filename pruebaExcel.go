@@ -36,7 +36,7 @@ func csvReaderRow() {
 			return
 		}
 
-		fmt.Printf("Row %d : %v \n", i, record)
+		fmt.Printf("Row %d : %v \n", i, record[0])
 	}
 
 	// Note: Each time Read() is called, it reads the next line from the file
