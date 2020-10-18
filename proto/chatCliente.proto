@@ -1,18 +1,18 @@
 syntax  = "proto3";
 
-package chatCliente;
+package chatCamion;
+
+service ServicioCamion {
+    rpc FuncHolaMUndo(MensajeRequest) returns (MensajeReply);
+}
 
 message MensajeRequest {
-    int64 a = 1; // 1 byte tamaño de valor
-    int64 b = 2;  // = no asigna valor sino tamaño
+    string name = 1;
 }
 
-message MensajeRespuesta {
-    int64 resultado = 1;
+message MensajeReply {
+    string name = 1;
 }
 
-service ServicioNuevo {
-    rpc FuncionServer(MensajeRequest) returns (MensajeRespuesta);
-}
 
 // luego se compila con comando "protoc --proto..."

@@ -30,15 +30,3 @@ func main()  {
 
 }
 
-func (s *server) FuncionServer(ctx context.Context, request *proto.MensajeRequest) (*proto.MensajeRespuesta, error) {
-	log.Printf("Mensaje recibido del client")
-
-	a, b := request.GetA(), request.GetB()
-
-	result := a + b
-	
-	return &proto.MensajeRespuesta{Result : result}, nil
-}
-
-
-
