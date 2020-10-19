@@ -28,7 +28,7 @@ Cliente:
 	- Realiza 3 consultas de seguimiendo a la orden antes de realizar otra orden
 
 */
-func CrearCliente(tipoCliente string, tiempoOrden int) fin int{
+func CrearCliente(tipoCliente string, tiempoOrden int) int{
 
 
 	fmt.Println("Nuevo Cliente " + tipoCliente)
@@ -36,6 +36,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int) fin int{
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":4072", grpc.WithInsecure())
 	if err != nil {
+		return 0
 		log.Fatalf("No se pudo conectar a servidor Logistica: %s", err)
 	}
 	defer conn.Close()
@@ -80,6 +81,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int) fin int{
 			return 1
 		}
 	}
+
 
 }
 
