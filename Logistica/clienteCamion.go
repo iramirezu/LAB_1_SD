@@ -291,9 +291,12 @@ func eliminarFilaRegistro(nombreRegistro string, index int) {
 func main() {
 	scounter := SafeCounter{v: make(map[string]int)}
 
-	go scounter.CrearCamion(2,"2") // Camion Retail 3
-	go scounter.CrearCamion(1,"1") // Camion Retail 2
 	go scounter.CrearCamion(0,"0") // Camion Retail 1
+	time.Sleep(time.Second)
+	go scounter.CrearCamion(1,"1") // Camion Retail 2
+	time.Sleep(time.Second)
+	go scounter.CrearCamion(2,"2") // Camion Normal 1
+	time.Sleep(time.Second)
 	for {
 		time.Sleep(time.Second*5)
 	}
