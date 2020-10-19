@@ -140,8 +140,8 @@ func (scounter *SafeCounter) CrearCamion(numCamion int){
 				numPaquetes = 2
 			}
 		}
-		defer scounter.mux.Unlock()
-		return scounter.v[key]
+		scounter.v[numCamion]++
+		scounter.mux.Unlock()
 	}
 	// COMIENZA LOOP DE ENTREGA
 	for  numPaquetes > 0 {
@@ -187,7 +187,7 @@ func completarEntrega(registro string, idPaquete string, exito string) [][]strin
 	for i := 1; i < len(rows); i++{
 		id := rows[i][0]
 		if id == idPaquete {
-			rows[i][6] = fechaHoy
+			
 			rows[i][7] = exito
 			escribirFilasRegistro(registro, rows)
 			return rows
