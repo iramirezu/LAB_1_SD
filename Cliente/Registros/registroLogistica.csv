@@ -19,3 +19,10 @@ timestamp,id-paquete,tipo,nombre,valor,origen,destino,seguimiento,intentos,fecha
 2006-01-02 15:04:05,SA5974AA,retail,Sillón,105,tienda-C,casa-C,18,0,0
 2006-01-02 15:04:05,SA2596NH,retail,Mesa,90,tienda-A,casa-S,19,0,0
 2006-01-02 15:04:05,SA7748JK,retail,Cama,115,tienda-B,casa-A,20,0,0
+2006-01-02 15:04:05,CC122,normal,Polera,9,pyme,casa-F,21,0,0
+2006-01-02 15:04:05,CC147,prioritario,Pantalón,11,pyme,casa-C,22,0,0
+2006-01-02 15:04:05,CC175,prioritario,Bufanda,6,pyme,casa-A,23,0,0
+2006-01-02 15:04:05,CC124,normal,Abrigo,17,pyme,casa-U,24,0,0
+2006-01-02 15:04:05,CC121,normal,Chaqueta,16,pyme,casa-X,25,0,0
+2006-01-02 15:04:05,CC147,prioritario,Sueter,14,pyme,casa-C,26,0,0
+2006-01-02 15:04:05,CC121,normal,Pantalón,10,pyme,casa-A,27,0,0
