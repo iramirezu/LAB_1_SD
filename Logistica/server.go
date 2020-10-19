@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
-	"github.com/PrestigioExpress/ServicioCliente/chatCliente"
-	"github.com/PrestigioExpress/ServicioCliente/chatCamion"
+	"github.com/PrestigioExpress/ServicioDistribuido/chatCliente"
+	"github.com/PrestigioExpress/ServicioDistribuido/chatCamion"
 )
 
 

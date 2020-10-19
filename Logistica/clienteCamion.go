@@ -14,7 +14,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/PrestigioExpress/ServicioCliente/chatCamion"
+	"github.com/PrestigioExpress/ServicioDistribuido/chatCamion"
 )
 
 // Se informa a la central en cuanto se completa una entrega, haya sido recibida o no
@@ -28,19 +28,8 @@ import (
 //		- Fecha cuando se entrega paquede
 //		- Si es 0 el paquete no se entrego al cliente, ya no quedan intentos
 
-func CrearCamion(tipoCamion int){
-	// Inicio de Creacion Cliente Camion (GRPC)
-	nombreCamion := ""
-	if tipoCamion == 0 {
-		nombreCamion = "Camion Retail 1"
-		fmt.Println("Camion Retail 1")
-	} else if tipoCamion == 1 {
-		nombreCamion = "Camion Retail 2"
-		fmt.Println("Camion Retail 2")
-	} else{ 
-		nombreCamion = "Camion Normal 1"
-		fmt.Println("Camion Normal 1")
-	}
+func CrearCamion(numCamion int){
+	// Conexion con servidor Logistica "dist125"
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist125:5151", grpc.WithInsecure())
 	if err != nil {
@@ -50,15 +39,56 @@ func CrearCamion(tipoCamion int){
 
 	c := chatCamion.NewServicioCamionClient(conn)
 
-	mensajeCamion := "Hola desde Camion: " + nombreCamion + ""
-	response, err := c.FuncHolaMUndo(context.Background(), &chatCamion.MensajeRequest{Mensaje1: mensajeCamion})
-	if err != nil {
-		log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
+	// Definicion tipo de camion y su respectivo nombre
+	nombreCamion := ""
+	tipoC := "" // "0" si es Retail, "1" si es Normal
+	if numCamion == 0 {
+		nombreCamion = "Camion Retail 1"
+		fmt.Println("Camion Retail 1")
+		tipoC = "0"
+	} else if numCamion == 1 {
+		nombreCamion = "Camion Retail 2"
+		fmt.Println("Camion Retail 2")
+		tipoC := "0"
+	} else{ 
+		nombreCamion = "Camion Normal 1"
+		fmt.Println("Camion Normal 1")
+		tipoC := "1"
 	}
-	fmt.Println("MensajeReply desde Logistica: " + response.Respuesta1)
-	// Termino de Creacion Cliente Camion (GRPC)
 
-	// Inicio Loop para funcionamiento de Camiones
+	// Comienza Funcionamiento de Camion
+	
+
+	response_p, err_p := c.PedirPaquete(context.Background(), &chatCamion.PeticionPaquete{TipoCamion: tipoC})
+	if err_p != nil {
+		log.Fatalf("Error al llamar funcion PedirPaquete: %s", err_p)
+	}
+	id_p := response.Id
+	tipo_p := response.Tipo
+	valor_p := response.Valor
+	origen_p := response.Origen
+	destino_p := response.Destino
+	intentos_p := response.Intentos
+	fechaEntrega_p := response.FechaEntrega
+	exito_p := response.Exito
+
+	fmt.Println("Id Recibida desde Logistica: " + id_p + ", " + tipo_p + ", " + valor_p + ", " + origen_p + ", " + destino_p + ", " + intentos_p + ", " + fechaEntrega_p + ", " + exito_p)
+
+
+	id_c := "response.Id"
+	tipo_c := "response.Tipo"
+	valor_c := "response.Valor"
+	origen_c := "response.Origen"
+	destino_c := "response.Destino"
+	intentos_c := "response.Intentos"
+	fechaEntrega_c := "response.FechaEntrega"
+	exito_c := "response.Exito"
+	response_c, err_c := c.CompletarEntrega(context.Background(), &chatCamion.PaqueteCompletado{Id:id_c, Tipo:tipo_c, Valor:valor_c, Origen:origen_c, Destino:destino_c,Intentos:intentos_c, FechaEntrega:fechaEntrega_c, Exito:exito_c})
+	if err_c != nil {
+		log.Fatalf("Error al llamar funcion CompletarEntrega: %s", err_c)
+	}
+	fmt.Println("Orden 'paquete entregado' recibida por Logistica " + response_c)
+
 	
 }
 

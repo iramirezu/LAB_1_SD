@@ -18,8 +18,7 @@ protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplem
 protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative chatCamion/chatCamion.proto
 
 # Luego en carpeta que contiene server
-go mod init github.com/PrestigioExpress/ServicioCliente
-go mod init github.com/PrestigioExpress/ServicioCamion
+go mod init github.com/PrestigioExpress/ServicioDistribuido
 
 
 # Maquinas Usadas:

@@ -31,7 +31,7 @@ func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdS
 
 	// timestamp,id-paquete,tipo,nombre,valor,origen,destino,seguimiento,intentos,fecha_entrega
 	var nuevaFila[]string
-	nuevaFila = append(nuevaFila, timestamp, id, tipo, producto, valor, tienda, destino, strSeguimiento, "0", "0")
+	nuevaFila = append(nuevaFila, timestamp, id, tipo, producto, valor, tienda, destino, strSeguimiento, "0", "0", "0")
 	filasRegistro = append(filasRegistro, nuevaFila)
 	escribirFilasRegistro("registroLogistica", filasRegistro)
 

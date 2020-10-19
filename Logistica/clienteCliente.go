@@ -14,7 +14,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/PrestigioExpress/ServicioCliente/chatCliente"
+	"github.com/PrestigioExpress/ServicioDistribuido/chatCliente"
 )
 
 
