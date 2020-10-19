@@ -1,4 +1,4 @@
-timestamp,id-paquete,tipo,nombre,valor,origen,destino,seguimiento
-03-10-2020,13:00,000001,retail,perfume,15,tienda-A,casa-A,0
-03-10-2020,14:00,000002,normal,chocolate,5,tienda-B,casa-B,130033
-04-10-2020,09:00,000003,prioritario,bicicleta,40,tienda-C,casa-C,134034
+timestamp,id-paquete,tipo,nombre,valor,origen,destino,seguimiento,intentos,fecha_entrega
+03-10-2020 13:00,000001,retail,perfume,15,tienda-A,casa-A,000001,1, 03-10-2020 15:00
+03-10-2020 14:00,000002,normal,chocolate,5,tienda-B,casa-B,000002,3, 0
+04-10-2020 09:00,000003,prioritario,bicicleta,40,tienda-C,casa-C,000003,2, 04-10-2020 10:00
