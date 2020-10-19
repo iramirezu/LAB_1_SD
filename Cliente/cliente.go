@@ -29,11 +29,9 @@ Cliente:
 
 */
 func CrearCliente(tipoCliente string, tiempoOrden int){
-	if tipoCliente == "retail" {
-		tipoCliente = "retail"
-	} else {
-		tipoCliente = "pymes"
-	}
+
+
+	fmt.Println("Nuevo Cliente " + tipoCliente)
 
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial(":4072", grpc.WithInsecure())
@@ -47,7 +45,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	
 	// Inicio Loop para funcionamiento de Clientes
 	for {
-		time.Sleep(5)
+		time.Sleep(10)
 		rows := leerFilasRegistro(tipoCliente)
 		if rows != nil {
 			// saca datos de primera linea en el csv que contiene intrucciones del cliente
@@ -77,6 +75,8 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 				log.Fatalf("Error al llamar funcion GenerarOrden: %s", err)
 			}
 			fmt.Println("Id Seguimiento Generado: " + response.Id)
+		}else{
+			fmt.Println("No quedan Registros en " + tipoCliente + ".csv")
 		}
 	}
 
@@ -100,7 +100,7 @@ func leerFilasRegistro(nombreRegistro string) [][]string {
 		//log.Fatal(err)
 	}
 	
-	if len(rows) == 1 {
+	if len(rows) < 2 {
 		return nil
 	}
     return rows
@@ -129,10 +129,10 @@ func eliminarFilaRegistro(nombreRegistro string, index int) {
 func main() {
 
 	tiempoOrden := 1
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
 	go CrearCliente("retail", tiempoOrden)
-	go CrearCliente("pymes", tiempoOrden)
-	go CrearCliente("pymes", tiempoOrden)
 	for {
-		time.Sleep(5)
+		time.Sleep(1)
 	}
 }
