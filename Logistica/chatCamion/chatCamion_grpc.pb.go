@@ -13,117 +13,117 @@ import (
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion7
 
-// ServicioClienteClient is the client API for ServicioCliente service.
+// ServicioCamionClient is the client API for ServicioCamion service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ServicioClienteClient interface {
+type ServicioCamionClient interface {
 	PedirPaquete(ctx context.Context, in *PeticionPaquete, opts ...grpc.CallOption) (*PaqueteRecibido, error)
 	CompletarEntrega(ctx context.Context, in *PaqueteCompletado, opts ...grpc.CallOption) (*MensajeReply, error)
 }
 
-type servicioClienteClient struct {
+type servicioCamionClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewServicioClienteClient(cc grpc.ClientConnInterface) ServicioClienteClient {
-	return &servicioClienteClient{cc}
+func NewServicioCamionClient(cc grpc.ClientConnInterface) ServicioCamionClient {
+	return &servicioCamionClient{cc}
 }
 
-func (c *servicioClienteClient) PedirPaquete(ctx context.Context, in *PeticionPaquete, opts ...grpc.CallOption) (*PaqueteRecibido, error) {
+func (c *servicioCamionClient) PedirPaquete(ctx context.Context, in *PeticionPaquete, opts ...grpc.CallOption) (*PaqueteRecibido, error) {
 	out := new(PaqueteRecibido)
-	err := c.cc.Invoke(ctx, "/chatCamion.ServicioCliente/PedirPaquete", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/chatCamion.ServicioCamion/PedirPaquete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *servicioClienteClient) CompletarEntrega(ctx context.Context, in *PaqueteCompletado, opts ...grpc.CallOption) (*MensajeReply, error) {
+func (c *servicioCamionClient) CompletarEntrega(ctx context.Context, in *PaqueteCompletado, opts ...grpc.CallOption) (*MensajeReply, error) {
 	out := new(MensajeReply)
-	err := c.cc.Invoke(ctx, "/chatCamion.ServicioCliente/CompletarEntrega", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/chatCamion.ServicioCamion/CompletarEntrega", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServicioClienteServer is the server API for ServicioCliente service.
-// All implementations should embed UnimplementedServicioClienteServer
+// ServicioCamionServer is the server API for ServicioCamion service.
+// All implementations should embed UnimplementedServicioCamionServer
 // for forward compatibility
-type ServicioClienteServer interface {
+type ServicioCamionServer interface {
 	PedirPaquete(context.Context, *PeticionPaquete) (*PaqueteRecibido, error)
 	CompletarEntrega(context.Context, *PaqueteCompletado) (*MensajeReply, error)
 }
 
-// UnimplementedServicioClienteServer should be embedded to have forward compatible implementations.
-type UnimplementedServicioClienteServer struct {
+// UnimplementedServicioCamionServer should be embedded to have forward compatible implementations.
+type UnimplementedServicioCamionServer struct {
 }
 
-func (UnimplementedServicioClienteServer) PedirPaquete(context.Context, *PeticionPaquete) (*PaqueteRecibido, error) {
+func (UnimplementedServicioCamionServer) PedirPaquete(context.Context, *PeticionPaquete) (*PaqueteRecibido, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PedirPaquete not implemented")
 }
-func (UnimplementedServicioClienteServer) CompletarEntrega(context.Context, *PaqueteCompletado) (*MensajeReply, error) {
+func (UnimplementedServicioCamionServer) CompletarEntrega(context.Context, *PaqueteCompletado) (*MensajeReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CompletarEntrega not implemented")
 }
 
-// UnsafeServicioClienteServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ServicioClienteServer will
+// UnsafeServicioCamionServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ServicioCamionServer will
 // result in compilation errors.
-type UnsafeServicioClienteServer interface {
-	mustEmbedUnimplementedServicioClienteServer()
+type UnsafeServicioCamionServer interface {
+	mustEmbedUnimplementedServicioCamionServer()
 }
 
-func RegisterServicioClienteServer(s *grpc.Server, srv ServicioClienteServer) {
-	s.RegisterService(&_ServicioCliente_serviceDesc, srv)
+func RegisterServicioCamionServer(s *grpc.Server, srv ServicioCamionServer) {
+	s.RegisterService(&_ServicioCamion_serviceDesc, srv)
 }
 
-func _ServicioCliente_PedirPaquete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ServicioCamion_PedirPaquete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PeticionPaquete)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServicioClienteServer).PedirPaquete(ctx, in)
+		return srv.(ServicioCamionServer).PedirPaquete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/chatCamion.ServicioCliente/PedirPaquete",
+		FullMethod: "/chatCamion.ServicioCamion/PedirPaquete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServicioClienteServer).PedirPaquete(ctx, req.(*PeticionPaquete))
+		return srv.(ServicioCamionServer).PedirPaquete(ctx, req.(*PeticionPaquete))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ServicioCliente_CompletarEntrega_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ServicioCamion_CompletarEntrega_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PaqueteCompletado)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServicioClienteServer).CompletarEntrega(ctx, in)
+		return srv.(ServicioCamionServer).CompletarEntrega(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/chatCamion.ServicioCliente/CompletarEntrega",
+		FullMethod: "/chatCamion.ServicioCamion/CompletarEntrega",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServicioClienteServer).CompletarEntrega(ctx, req.(*PaqueteCompletado))
+		return srv.(ServicioCamionServer).CompletarEntrega(ctx, req.(*PaqueteCompletado))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _ServicioCliente_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "chatCamion.ServicioCliente",
-	HandlerType: (*ServicioClienteServer)(nil),
+var _ServicioCamion_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "chatCamion.ServicioCamion",
+	HandlerType: (*ServicioCamionServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "PedirPaquete",
-			Handler:    _ServicioCliente_PedirPaquete_Handler,
+			Handler:    _ServicioCamion_PedirPaquete_Handler,
 		},
 		{
 			MethodName: "CompletarEntrega",
-			Handler:    _ServicioCliente_CompletarEntrega_Handler,
+			Handler:    _ServicioCamion_CompletarEntrega_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
