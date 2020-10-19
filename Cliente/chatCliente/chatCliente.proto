@@ -4,16 +4,23 @@ package chatCliente;
 
 
 service ServicioCliente {
-    rpc FuncHolaMUndo(MensajeRequest) returns (MensajeReply);
+    rpc GenerarOrden(OrdenGenerada) returns (IdSeguimiento);
+    rpc ConsultarOrden(IdSeguimiento) returns (MensajeReply);
 }
 
-message MensajeRequest {
-    string mensaje1 = 1;
+message OrdenGenerada {
+    string id = 1;
+    string producto = 1;
+    string valor = 1;
+    string tienda = 1;
+    string destino = 1;
+    string prioritario = 1; 
 }
+message IdSeguimiento {
+    string id = 1;
+}
+
 
 message MensajeReply {
     string respuesta1 = 1;
 }
-
-
-// luego se compila con comando "protoc --proto..."
