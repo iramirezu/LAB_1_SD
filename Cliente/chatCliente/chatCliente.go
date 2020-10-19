@@ -49,7 +49,7 @@ func cantFilasRegistro(nombreRegistro string) int { // numero de seguimiento ser
 }
 
 func leerFilasRegistro(nombreRegistro string) [][]string {
-    f, err := os.Open(""+nombreRegistro+".csv")
+    f, err := os.Open("Registros/"+nombreRegistro+".csv")
     if err != nil {
         log.Fatal(err)
     }
@@ -62,7 +62,7 @@ func leerFilasRegistro(nombreRegistro string) [][]string {
 }
 
 func escribirFilasRegistro(nombreRegistro string, rows [][]string) {
-    f, err := os.Create(""+nombreRegistro+".csv")
+    f, err := os.Create("Registros/"+nombreRegistro+".csv")
     if err != nil {
         log.Fatal(err)
     }
