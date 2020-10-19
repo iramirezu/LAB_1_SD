@@ -88,6 +88,9 @@ func revisarIntentos(idPaquete string) int {
 		id := rows[i][0]
 		if id == idPaquete {
 			entero, err := strconv.Atoi(rows[i][5])
+			if err != nil{
+				return -1
+			}
 			return entero
 		}
 	}
@@ -100,6 +103,9 @@ func agregarIntento(idPaquete string) int {
 		id := rows[i][0]
 		if id == idPaquete {
 			entero, err := strconv.Atoi(rows[i][5])
+			if err != nil{
+				return -1
+			}
 			entero = entero + 1
 			s := strconv.Itoa(-42)
 			rows[i][5] = s
