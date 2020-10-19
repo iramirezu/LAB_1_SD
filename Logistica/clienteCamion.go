@@ -81,15 +81,15 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 	numPaquetes := 0
 
 	// LOOP QUE ESPERA PAQUETES ANTES DE SALIR A ENTREGARLOS
+	scounter.mux.Lock()
 	for id_p == "0" {
-		scounter.mux.Lock()
-		fmt.Println("Camion: "+nombreCamion+" Esperando Paquetes")
 		time.Sleep(time.Second*2) // TIEMPO ESPERA SEGUDNO PAQUETE???? SI
 		// FUNCION ENVIA PETICION DE PAQUETE Y RECIBE PAQUETE PARA GUARDARDO EN REGISTRO
 		response_p, err_p := c.PedirPaquete(context.Background(), &chatCamion.PeticionPaquete{TipoCamion: tipoC})
 		if err_p != nil {
 			log.Fatalf("Error al llamar funcion PedirPaquete: %s", err_p)
 		}
+		fmt.Println("Camion: "+nombreCamion+" Esperando Paquetes")
 		id_p = response_p.Id
 		tipo_p := response_p.Tipo
 		valor_p := response_p.Valor
@@ -142,9 +142,9 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 				numPaquetes = 2
 			}
 		}
-		scounter.v[key]++
-		scounter.mux.Unlock()
 	}
+	scounter.v[key]++
+	scounter.mux.Unlock()
 	// COMIENZA LOOP DE ENTREGA
 	for  numPaquetes > 0 {
 		time.Sleep(time.Second*2) 
