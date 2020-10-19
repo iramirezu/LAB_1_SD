@@ -14,7 +14,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/PrestigioExpress/ServicioCamion/chatCamion"
+	"github.com/PrestigioExpress/ServicioCliente/chatCamion"
 )
 
 // Se informa a la central en cuanto se completa una entrega, haya sido recibida o no
