@@ -22,7 +22,7 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 
 	// Falta leer datos de las Colas 
 	// Leer infor de registro Logistica
-	id_r := "id";
+	id_r := "0";
     tipo_r := "tipo";
     valor_r := "valor";
     origen_r := "origen";
