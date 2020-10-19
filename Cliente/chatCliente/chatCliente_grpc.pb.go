@@ -17,7 +17,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ServicioClienteClient interface {
-	FuncHolaMUndo(ctx context.Context, in *MensajeRequest, opts ...grpc.CallOption) (*MensajeReply, error)
+	GenerarOrden(ctx context.Context, in *OrdenGenerada, opts ...grpc.CallOption) (*IdSeguimiento, error)
+	ConsultarOrden(ctx context.Context, in *IdSeguimiento, opts ...grpc.CallOption) (*MensajeReply, error)
 }
 
 type servicioClienteClient struct {
@@ -28,9 +29,18 @@ func NewServicioClienteClient(cc grpc.ClientConnInterface) ServicioClienteClient
 	return &servicioClienteClient{cc}
 }
 
-func (c *servicioClienteClient) FuncHolaMUndo(ctx context.Context, in *MensajeRequest, opts ...grpc.CallOption) (*MensajeReply, error) {
+func (c *servicioClienteClient) GenerarOrden(ctx context.Context, in *OrdenGenerada, opts ...grpc.CallOption) (*IdSeguimiento, error) {
+	out := new(IdSeguimiento)
+	err := c.cc.Invoke(ctx, "/chatCliente.ServicioCliente/GenerarOrden", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *servicioClienteClient) ConsultarOrden(ctx context.Context, in *IdSeguimiento, opts ...grpc.CallOption) (*MensajeReply, error) {
 	out := new(MensajeReply)
-	err := c.cc.Invoke(ctx, "/chatCliente.ServicioCliente/FuncHolaMUndo", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/chatCliente.ServicioCliente/ConsultarOrden", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -41,15 +51,19 @@ func (c *servicioClienteClient) FuncHolaMUndo(ctx context.Context, in *MensajeRe
 // All implementations should embed UnimplementedServicioClienteServer
 // for forward compatibility
 type ServicioClienteServer interface {
-	FuncHolaMUndo(context.Context, *MensajeRequest) (*MensajeReply, error)
+	GenerarOrden(context.Context, *OrdenGenerada) (*IdSeguimiento, error)
+	ConsultarOrden(context.Context, *IdSeguimiento) (*MensajeReply, error)
 }
 
 // UnimplementedServicioClienteServer should be embedded to have forward compatible implementations.
 type UnimplementedServicioClienteServer struct {
 }
 
-func (UnimplementedServicioClienteServer) FuncHolaMUndo(context.Context, *MensajeRequest) (*MensajeReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FuncHolaMUndo not implemented")
+func (UnimplementedServicioClienteServer) GenerarOrden(context.Context, *OrdenGenerada) (*IdSeguimiento, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GenerarOrden not implemented")
+}
+func (UnimplementedServicioClienteServer) ConsultarOrden(context.Context, *IdSeguimiento) (*MensajeReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConsultarOrden not implemented")
 }
 
 // UnsafeServicioClienteServer may be embedded to opt out of forward compatibility for this service.
@@ -63,20 +77,38 @@ func RegisterServicioClienteServer(s *grpc.Server, srv ServicioClienteServer) {
 	s.RegisterService(&_ServicioCliente_serviceDesc, srv)
 }
 
-func _ServicioCliente_FuncHolaMUndo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MensajeRequest)
+func _ServicioCliente_GenerarOrden_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrdenGenerada)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServicioClienteServer).FuncHolaMUndo(ctx, in)
+		return srv.(ServicioClienteServer).GenerarOrden(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/chatCliente.ServicioCliente/FuncHolaMUndo",
+		FullMethod: "/chatCliente.ServicioCliente/GenerarOrden",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServicioClienteServer).FuncHolaMUndo(ctx, req.(*MensajeRequest))
+		return srv.(ServicioClienteServer).GenerarOrden(ctx, req.(*OrdenGenerada))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ServicioCliente_ConsultarOrden_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IdSeguimiento)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServicioClienteServer).ConsultarOrden(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/chatCliente.ServicioCliente/ConsultarOrden",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServicioClienteServer).ConsultarOrden(ctx, req.(*IdSeguimiento))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -86,8 +118,12 @@ var _ServicioCliente_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*ServicioClienteServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "FuncHolaMUndo",
-			Handler:    _ServicioCliente_FuncHolaMUndo_Handler,
+			MethodName: "GenerarOrden",
+			Handler:    _ServicioCliente_GenerarOrden_Handler,
+		},
+		{
+			MethodName: "ConsultarOrden",
+			Handler:    _ServicioCliente_ConsultarOrden_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
