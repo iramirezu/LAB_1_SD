@@ -6,6 +6,9 @@ import (
 
 	"time"
 
+	"math/rand"
+	"strconv"
+
 	"log"
 	"fmt"
 	"golang.org/x/net/context"
@@ -14,9 +17,20 @@ import (
 	"github.com/PrestigioExpress/ServicioCamion/chatCamion"
 )
 
-func CrearCamion(tipoCamion int){
-	nombreCamion := ""
+// Se informa a la central en cuanto se completa una entrega, haya sido recibida o no
 
+// pedir 
+//	Tiempo de espera de segundo paquete cuando se esta en bodega
+//	Tiempo de espera hasta realizar otro intento
+//	Tiempo que demora el camion para llegar a un domicilio
+
+// Fecha de entrega: 
+//		- Fecha cuando se entrega paquede
+//		- Si es 0 el paquete no se entrego al cliente, ya no quedan intentos
+
+func CrearCamion(tipoCamion int){
+	// Inicio de Creacion Cliente Camion (GRPC)
+	nombreCamion := ""
 	if tipoCamion == 0 {
 		nombreCamion = "Camion Retail 1"
 		fmt.Println("Camion Retail 1")
@@ -42,8 +56,13 @@ func CrearCamion(tipoCamion int){
 		log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
 	}
 	fmt.Println("MensajeReply desde Logistica: " + response.Respuesta1)
-	
-	rows := readSample()
+	// Termino de Creacion Cliente Camion (GRPC)
+
+	// Inicio Loop para funcionamiento de Camiones
+	for {
+		time.Sleep(5)
+	}
+	rows := leerFilasRegistro()
 	for i := 1; i < len(rows); i++{
 		rows[i][2] = "0"
 	}
@@ -51,7 +70,54 @@ func CrearCamion(tipoCamion int){
 	writeChanges(rows)
 }
 
-func readSample() [][]string {
+func haySinEntregar() bool {
+	rows := leerFilasRegistro();
+	for i := 1; i < len(rows); i++{
+		entrega := rows[i][6]
+		if entrega == "0" {
+			return true
+		}
+	}
+	return false
+}
+
+func entregaLograda() bool {
+	random := rand.Intn(100)
+	if random < 19 { // < 20, pero funcion random empieza desde 0
+		return false
+	}else{
+		return true
+	}
+}
+
+func revisarIntentos(idPaquete string) int {
+	rows := leerFilasRegistro();
+	for i := 1; i < len(rows); i++{
+		id := rows[i][0]
+		if id == idPaquete {
+			entero, err := strconv.Atoi(rows[i][5])
+			return entero
+		}
+	}
+	return -1
+}
+
+func agregarIntento(idPaquete string) int {
+	rows := leerFilasRegistro();
+	for i := 1; i < len(rows); i++{
+		id := rows[i][0]
+		if id == idPaquete {
+			entero, err := strconv.Atoi(rows[i][5])
+			entero = entero + 1
+			s := strconv.Itoa(-42)
+			rows[i][5] = s
+			return entero
+		}
+	}
+	return -1
+}
+
+func leerFilasRegistro() [][]string {
     f, err := os.Open("registroCamion.csv")
     if err != nil {
         log.Fatal(err)
@@ -80,9 +146,9 @@ func writeChanges(rows [][]string) {
 
 func main() {
 
-	CrearCamion(0)
-	CrearCamion(1)
-	CrearCamion(2)
+	go CrearCamion(0)
+	go CrearCamion(1)
+	go CrearCamion(2)
 	for {
 		time.Sleep(5)
 	}
