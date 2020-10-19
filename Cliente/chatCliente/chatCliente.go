@@ -2,6 +2,7 @@ package chatCliente
 
 import (
 	"log"
+	"encoding/csv"
 	"strconv"
 	"os"
 	"golang.org/x/net/context"
