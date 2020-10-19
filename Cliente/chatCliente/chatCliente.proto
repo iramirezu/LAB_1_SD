@@ -14,7 +14,8 @@ message OrdenGenerada {
     string valor = 3;
     string tienda = 4;
     string destino = 5;
-    string prioritario = 6; 
+    string tipo = 6; 
+
 }
 message IdSeguimiento {
     string id = 1;

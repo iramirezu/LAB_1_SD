@@ -46,17 +46,22 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 
 	
 	// Inicio Loop para funcionamiento de Clientes
+	tipo_r := tipoCliente
 	for {
 		time.Sleep(5)
 		rows := leerFilasRegistro(tipoCliente)
-		id_r := rows[1][0];
-		producto_r := rows[1][1];
-		valor_r := rows[1][2];
-		tienda_r := rows[1][3];
-		destino_r := rows[1][4];
-		prioritario_r := rows[1][5]; 
+		//for i := 1; i < len(rows); i++{
+		//	rows[i][2] = "0"
+		//}
+		// saca datos de primera linea en el csv que contiene intrucciones del cliente
+		// elimina la linea y la agrega a "(pymes/retail)_usados" para que se puedan volver a usar las intrucciones
+		id_r := rows[1][0] 
+		producto_r := rows[1][1]
+		valor_r := rows[1][2]
+		tienda_r := rows[1][3]
+		destino_r := rows[1][4]
 
-		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Prioritario:prioritario_r}) // actualizar
+		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo_r}) // actualizar
 		if err != nil {
 			log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
 		}
