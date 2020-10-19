@@ -50,9 +50,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	for {
 		time.Sleep(5)
 		rows := leerFilasRegistro(tipoCliente)
-		//for i := 1; i < len(rows); i++{
-		//	rows[i][2] = "0"
-		//}
+
 		// saca datos de primera linea en el csv que contiene intrucciones del cliente
 		// elimina la linea y la agrega a "(pymes/retail)_usados" para que se puedan volver a usar las intrucciones
 		id_r := rows[1][0] 
@@ -60,6 +58,8 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 		valor_r := rows[1][2]
 		tienda_r := rows[1][3]
 		destino_r := rows[1][4]
+
+		eliminarFilaRegistro(tipoCliente, 1)
 
 		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo_r}) // actualizar
 		if err != nil {
@@ -99,6 +99,14 @@ func escribirFilasRegistro(nombreRegistro string, rows [][]string) {
     }
 }
 
+func eliminarFilaRegistro(nombreRegistro string, index int) {
+	a := leerFilasRegistro(nombreRegistro)
+	copy(a[index:], a[index+1:]) // Shift a[i+1:] left one index.
+	a[len(a)-1] = ""     // Erase last element (write zero value).
+	a = a[:len(a)-1]     // Truncate slice.
+	escribirFilasRegistro(nombreRegistro, a)
+}
+
 
 func main() {
 
@@ -109,5 +117,3 @@ func main() {
 		time.Sleep(5)
 	}
 }
-
-

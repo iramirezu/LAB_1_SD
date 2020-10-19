@@ -73,3 +73,11 @@ func escribirFilasRegistro(nombreRegistro string, rows [][]string) {
         log.Fatal(err)
     }
 }
+
+func eliminarFilaRegistro(nombreRegistro string, index int) {
+	a := leerFilasRegistro(nombreRegistro)
+	copy(a[index:], a[index+1:]) // Shift a[i+1:] left one index.
+	a[len(a)-1] = ""     // Erase last element (write zero value).
+	a = a[:len(a)-1]     // Truncate slice.
+	escribirFilasRegistro(nombreRegistro, a)
+}
