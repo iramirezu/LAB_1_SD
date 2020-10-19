@@ -21,8 +21,9 @@ func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdS
 	destino := mensaje.Destino
 	tipo := mensaje.Tipo
 
-    t := time.Now()
-	timestamp := t.Format("2006-01-02 15:04:05")
+    //t := time.Now()
+	//timestamp := t.Format("2006-01-02 15:04:05")
+	timestamp := "2006-01-02 15:04:05"
 	
 	filasRegistro := leerFilasRegistro("registroLogistica")
 	intSeguimiento := cantFilasRegistro("registroLogistica")
