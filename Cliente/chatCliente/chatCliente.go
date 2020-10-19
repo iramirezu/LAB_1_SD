@@ -45,7 +45,7 @@ func (s *Server) ConsultarOrden(ctx context.Context, mensaje *IdSeguimiento) (*M
 
 func cantFilasRegistro(nombreRegistro string) int { // numero de seguimiento sera un autogenerado que se relaciona directamente con la cantidad de registros
     rows := leerFilasRegistro(nombreRegistro)
-	cant := (len(rows) - 1)	
+	cant := (len(rows))	
     return cant
 }
 

@@ -113,12 +113,12 @@ func eliminarFilaRegistro(nombreRegistro string, index int) {
 func main() {
 
 	tiempoOrden := 1
-	go CrearCliente("pymes", tiempoOrden)
-	go CrearCliente("pymes", tiempoOrden)
-	go CrearCliente("pymes", tiempoOrden)
-	go CrearCliente("pymes", tiempoOrden)
-	go CrearCliente("pymes", tiempoOrden)
 	go CrearCliente("retail", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
 	for {
 		time.Sleep(5)
 	}

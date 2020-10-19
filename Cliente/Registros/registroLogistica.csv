@@ -1,14 +1,2 @@
 timestamp,id-paquete,tipo,nombre,valor,origen,destino,seguimiento,intentos,fecha_entrega
-2006-01-02 15:04:05,CC122,pymes,Polera,9,pyme,casa-F,0,0,0
-2006-01-02 15:04:05,CC147,pymes,Pantalón,11,pyme,casa-C,1,0,0
-2006-01-02 15:04:05,CC124,pymes,Abrigo,17,pyme,casa-U,2,0,0
-2006-01-02 15:04:05,CC175,pymes,Bufanda,6,pyme,casa-A,3,0,0
-2006-01-02 15:04:05,CC121,pymes,Chaqueta,16,pyme,casa-X,4,0,0
-2006-01-02 15:04:05,CC147,pymes,Sueter,14,pyme,casa-C,5,0,0
-2006-01-02 15:04:05,CC121,pymes,Pantalón,10,pyme,casa-A,6,0,0
-2006-01-02 15:04:05,CC454,pymes,Polera,7,pyme,casa-Q,7,0,0
-2006-01-02 15:04:05,GG257,pymes,Pistachos: 200 g,4,pyme,casa-B,8,0,0
-2006-01-02 15:04:05,GG124,pymes,Mani: 1 Kg,5,pyme,casa-A,9,0,0
-2006-01-02 15:04:05,GG568,pymes,Almendras: 500 g,5,pyme,casa-L,10,0,0
-2006-01-02 15:04:05,GG301,pymes,Chia: 500 g,6,pyme,casa-D,11,0,0
-2006-01-02 15:04:05,GG458,pymes,Arroz: 1 Kg,3,pyme,casa-C,12,0,0
+
