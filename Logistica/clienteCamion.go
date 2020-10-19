@@ -36,7 +36,7 @@ type SafeCounter struct {
 //		- Fecha cuando se entrega paquede
 //		- Si es 0 el paquete no se entrego al cliente, ya no quedan intentos
 
-func (scounter *SafeCounter) CrearCamion(numCamion int){
+func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 	// Conexion con servidor Logistica "dist125"
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist125:5151", grpc.WithInsecure())
@@ -140,7 +140,7 @@ func (scounter *SafeCounter) CrearCamion(numCamion int){
 				numPaquetes = 2
 			}
 		}
-		scounter.v[numCamion]++
+		scounter.v[key]++
 		scounter.mux.Unlock()
 	}
 	// COMIENZA LOOP DE ENTREGA
@@ -291,9 +291,9 @@ func eliminarFilaRegistro(nombreRegistro string, index int) {
 func main() {
 	scounter := SafeCounter{v: make(map[string]int)}
 
-	go scounter.CrearCamion(2) // Camion Retail 3
-	go scounter.CrearCamion(1) // Camion Retail 2
-	go scounter.CrearCamion(0) // Camion Retail 1
+	go scounter.CrearCamion(2,"2") // Camion Retail 3
+	go scounter.CrearCamion(1,"1") // Camion Retail 2
+	go scounter.CrearCamion(0,"0") // Camion Retail 1
 	for {
 		time.Sleep(time.Second*5)
 	}
