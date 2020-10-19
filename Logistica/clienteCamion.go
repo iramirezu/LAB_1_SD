@@ -38,6 +38,7 @@ type SafeCounter struct {
 
 func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 	// Conexion con servidor Logistica "dist125"
+	scounter.mux.Lock()
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist125:5151", grpc.WithInsecure())
 	if err != nil {
@@ -46,7 +47,8 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 	defer conn.Close()
 
 	c := chatCamion.NewServicioCamionClient(conn)
-
+	scounter.v[key]++
+	scounter.mux.Unlock()
 	// Definicion tipo de camion y su respectivo nombre
 	nombreCamion := ""
 	tipoC := "" // "0" si es Retail, "1" si es Normal
