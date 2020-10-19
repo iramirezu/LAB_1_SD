@@ -36,7 +36,7 @@ type SafeCounter struct {
 //		- Fecha cuando se entrega paquede
 //		- Si es 0 el paquete no se entrego al cliente, ya no quedan intentos
 
-func (c *SafeCounter) CrearCamion(numCamion int){
+func (scounter *SafeCounter) CrearCamion(numCamion int){
 	// Conexion con servidor Logistica "dist125"
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist125:5151", grpc.WithInsecure())
@@ -80,7 +80,7 @@ func (c *SafeCounter) CrearCamion(numCamion int){
 
 	// LOOP QUE ESPERA PAQUETES ANTES DE SALIR A ENTREGARLOS
 	for id_p == "0" {
-		c.mux.Lock()
+		scounter.mux.Lock()
 		fmt.Println("Camion: "+nombreCamion+" Esperando Paquetes")
 		time.Sleep(time.Second*tiempoEsperaSegundoPaquete) // TIEMPO ESPERA SEGUDNO PAQUETE???? SI
 		// FUNCION ENVIA PETICION DE PAQUETE Y RECIBE PAQUETE PARA GUARDARDO EN REGISTRO
@@ -140,8 +140,8 @@ func (c *SafeCounter) CrearCamion(numCamion int){
 				numPaquetes = 2
 			}
 		}
-		defer c.mux.Unlock()
-		return c.v[key]
+		defer scounter.mux.Unlock()
+		return scounter.v[key]
 	}
 	// COMIENZA LOOP DE ENTREGA
 	for  numPaquetes > 0 {
