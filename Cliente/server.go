@@ -13,8 +13,7 @@ import (
 	"github.com/PrestigioExpress/ServicioCliente/chatCliente"
 )
 
-type Server struct {
-}
+
 
 
 
