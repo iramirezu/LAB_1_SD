@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"time"
+	//"strconv"
 
 	//"math/rand"
-	//"strconv"
 
 	"log"
 	"fmt"
@@ -44,20 +44,23 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 
 	c := chatCliente.NewServicioClienteClient(conn) // actualizar
 
-	mensajeCliente := "Hola desde Cliente "
-	response, err := c.FuncHolaMUndo(context.Background(), &chatCliente.MensajeRequest{Mensaje1: mensajeCliente}) // actualizar
-	if err != nil {
-		log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
-	}
-	fmt.Println("MensajeReply desde Logistica: " + response.Respuesta1)
-
-	// Inicio Loop para funcionamiento de Camiones
+	
+	// Inicio Loop para funcionamiento de Clientes
 	for {
 		time.Sleep(5)
-	}
-	rows := leerFilasRegistro(tipoCliente)
-	for i := 1; i < len(rows); i++{
-		fmt.Println(rows[1])
+		rows := leerFilasRegistro(tipoCliente)
+		id_r := rows[1][0];
+		producto_r := rows[1][1];
+		valor_r := rows[1][2];
+		tienda_r := rows[1][3];
+		destino_r := rows[1][4];
+		prioritario_r := rows[1][5]; 
+
+		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{id: id_r, producto: producto_r, valor:valor_r, tienda:tienda_r, destino:destino_r,prioritario:prioritario_r}) // actualizar
+		if err != nil {
+			log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
+		}
+		fmt.Println("Id Seguimiento Generado: " + response.id)
 	}
 
 }
