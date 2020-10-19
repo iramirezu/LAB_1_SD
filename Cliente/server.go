@@ -17,7 +17,6 @@ import (
 type Server struct {
 }
 
-IteradorIdSeguimiento := 0
 
 func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdSeguimiento, error) {
 	IteradorIdSeguimiento = IteradorIdSeguimiento +1
@@ -45,7 +44,7 @@ func (s *Server) ConsultarOrden(ctx context.Context, mensaje *IdSeguimiento) (*M
 
 
 func main() {
-
+	IteradorIdSeguimiento := 0
 	fmt.Println("Comenzando ejecucion de sistema Logistica-Cliente")
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 4050))
