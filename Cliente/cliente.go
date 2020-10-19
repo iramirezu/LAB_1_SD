@@ -61,9 +61,9 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 		tienda_r := rows[1][3]
 		destino_r := rows[1][4]
 
-		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo_r}) // actualizar
+		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{id_r,producto_r,valor_r,tienda_r,destino_r,tipo_r}) // actualizar
 		if err != nil {
-			log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
+			log.Fatalf("Error al llamar funcion GenerarOrden: %s", err)
 		}
 		fmt.Println("Id Seguimiento Generado: " + response.Id)
 	}
