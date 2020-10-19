@@ -74,8 +74,8 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 	// Luego de encontrar el primer paquete espera TIEMPO y realiza la peticion una segunda vez
 	// El camion puede partir sin un segundo paquete
 	id_p := "0"
-	tiempoEsperaSegundoPaquete := 10
-	tiempoEsperaCamino := 10
+	//tiempoEsperaSegundoPaquete := 10
+	//tiempoEsperaCamino := 10
 	numPaquetes := 0
 
 	// LOOP QUE ESPERA PAQUETES ANTES DE SALIR A ENTREGARLOS
