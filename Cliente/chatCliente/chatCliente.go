@@ -1,9 +1,9 @@
 package chatCliente
 
-import {
+import ()
 	"log"
 	"golang.org/x/net/context"
-}
+)
 
 func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdSeguimiento, error) {
 	IteradorIdSeguimiento = IteradorIdSeguimiento +1
