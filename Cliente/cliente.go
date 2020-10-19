@@ -61,6 +61,15 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	
 			eliminarFilaRegistro(tipoCliente, 1)
 	
+			if tipoCliente != "retail" {
+				prioritario := rows[1][5]
+				if prioritario == "1" {
+					tipoCliente = "prioritario"
+				}else{
+					tipoCliente = "normal"
+				}
+			}
+
 			response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo_r}) // actualizar
 			if err != nil {
 				log.Fatalf("Error al llamar funcion GenerarOrden: %s", err)
@@ -78,15 +87,20 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 func leerFilasRegistro(nombreRegistro string) [][]string {
     f, err := os.Open("Registros/"+nombreRegistro+".csv")
     if err != nil {
+		fmt.Println("No quedan mas registros 1")
         log.Fatal(err)
     }
     rows, err := csv.NewReader(f).ReadAll()
     f.Close()
     if err != nil {
-		fmt.Println("No quedan mas registros")
+		fmt.Println("No quedan mas registros 2")
 		return nil
 		//log.Fatal(err)
-    }
+	}
+	
+	if len(rows) == 1 {
+		return nil
+	}
     return rows
 }
 
