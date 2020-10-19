@@ -36,7 +36,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	}
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(":4050", grpc.WithInsecure())
+	conn, err := grpc.Dial(":4060", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se pudo conectar a servidor Logistica: %s", err)
 	}
@@ -56,11 +56,11 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 		destino_r := rows[1][4];
 		prioritario_r := rows[1][5]; 
 
-		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{id: id_r, producto: producto_r, valor:valor_r, tienda:tienda_r, destino:destino_r,prioritario:prioritario_r}) // actualizar
+		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Prioritario:prioritario_r}) // actualizar
 		if err != nil {
 			log.Fatalf("Error al llamar funcion FuncHolaMUndo: %s", err)
 		}
-		fmt.Println("Id Seguimiento Generado: " + response.id)
+		fmt.Println("Id Seguimiento Generado: " + response.Id)
 	}
 
 }
