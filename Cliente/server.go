@@ -5,8 +5,8 @@ import (
 	"log"
 	"net"
 
-	"encoding/csv"
-	"os"
+	//"encoding/csv"
+	//"os"
 	//"strconv"
 
 	"google.golang.org/grpc"
@@ -18,7 +18,6 @@ import (
 
 
 func main() {
-	IteradorIdSeguimiento := 0
 	fmt.Println("Comenzando ejecucion de sistema Logistica-Cliente")
 
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 4050))
@@ -41,27 +40,4 @@ func main() {
 }
 
 
-func leerFilasRegistro(nombreRegistro string) [][]string {
-    f, err := os.Open(""+nombreRegistro+".csv")
-    if err != nil {
-        log.Fatal(err)
-    }
-    rows, err := csv.NewReader(f).ReadAll()
-    f.Close()
-    if err != nil {
-        log.Fatal(err)
-    }
-    return rows
-}
 
-func escribirFilasRegistro(nombreRegistro string, rows [][]string) {
-    f, err := os.Create(""+nombreRegistro+".csv")
-    if err != nil {
-        log.Fatal(err)
-    }
-    err = csv.NewWriter(f).WriteAll(rows)
-    f.Close()
-    if err != nil {
-        log.Fatal(err)
-    }
-}
