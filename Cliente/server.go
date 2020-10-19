@@ -21,11 +21,11 @@ func main()  {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-	s := chatCamion.Server{}
+	s := chatCliente.Server{}
 
 	grpcServer := grpc.NewServer()
 
-	chatCamion.RegisterServicioClienteServer(grpcServer, &s) // actualizar
+	chatCliente.RegisterServicioClienteServer(grpcServer, &s) // actualizar
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
