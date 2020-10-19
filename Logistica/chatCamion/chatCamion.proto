@@ -1,0 +1,19 @@
+syntax  = "proto3";
+
+package chatCamion;
+
+
+service ServicioCamion {
+    rpc FuncHolaMUndo(MensajeRequest) returns (MensajeReply);
+}
+
+message MensajeRequest {
+    string mensaje1 = 1;
+}
+
+message MensajeReply {
+    string respuesta1 = 1;
+}
+
+
+// luego se compila con comando "protoc --proto..."
