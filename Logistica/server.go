@@ -13,7 +13,7 @@ import (
 
 	"google.golang.org/grpc"
 	"github.com/PrestigioExpress/ServicioCliente/chatCliente"
-	"github.com/PrestigioExpress/ServicioCliente/chatCamion"
+	"github.com/PrestigioExpress/ServicioCamion/chatCamion"
 )
 
 

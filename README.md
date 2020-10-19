@@ -19,6 +19,7 @@ protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplem
 
 # Luego en carpeta que contiene server
 go mod init github.com/PrestigioExpress/ServicioCliente
+go mod init github.com/PrestigioExpress/ServicioCamion
 
 
 # Maquinas Usadas:
