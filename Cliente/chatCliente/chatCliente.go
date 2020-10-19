@@ -34,6 +34,8 @@ func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdS
 	nuevaFila = append(nuevaFila, timestamp, id, tipo, producto, valor, tienda, destino, strSeguimiento, "0", "0")
 	filasRegistro = append(filasRegistro, nuevaFila)
 	escribirFilasRegistro("registroLogistica", filasRegistro)
+
+	log.Printf("Nueva Orden Generada (id_seguimiento: %s) (tipo: %s)", strSeguimiento, tipo)
 	return &IdSeguimiento{Id: strSeguimiento}, nil
 }
 
