@@ -2,15 +2,6 @@ package chatCamion
 
 import (
 	"log"
-
-	"golang.org/x/net/context"
-)
-
-type Server struct {
-}
-
-import (
-	"log"
 	"encoding/csv"
 	"strconv"
 	"os"
