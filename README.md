@@ -6,15 +6,12 @@ sudo systemctl disable firewalld
 sudo systemctl mask --now firewalld
 
 # Instalacion de GRPC
-export GO111MODULE=on  # Enable module mode
-go get github.com/golang/protobuf/protoc-gen-go \ google.golang.org/grpc/cmd/protoc-gen-go-grpc
+export GO111MODULE=on  
+go get github.com/golang/protobuf/protoc-gen-go google.golang.org/grpc/cmd/protoc-gen-go-grpc
 export PATH="$PATH:$(go env GOPATH)/bin"
 export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:/usr/local/go/bin
 
-# Instalacion de Protobuf (No necesario???)
-$ go get -u github.com/golang/protobuf
-$ go get -u github.com/golang/protobuf/proto
 
 # Generacion de gRPC:
 protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative chatCliente/chatCliente.proto

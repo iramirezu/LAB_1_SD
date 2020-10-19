@@ -10,11 +10,11 @@ service ServicioCliente {
 
 message OrdenGenerada {
     string id = 1;
-    string producto = 1;
-    string valor = 1;
-    string tienda = 1;
-    string destino = 1;
-    string prioritario = 1; 
+    string producto = 2;
+    string valor = 3;
+    string tienda = 4;
+    string destino = 5;
+    string prioritario = 6; 
 }
 message IdSeguimiento {
     string id = 1;
