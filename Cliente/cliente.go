@@ -82,6 +82,7 @@ func leerFilasRegistro(nombreRegistro string) [][]string {
     rows, err := csv.NewReader(f).ReadAll()
     f.Close()
     if err != nil {
+		fmt.Println("No quedan mas registros")
         log.Fatal(err)
     }
     return rows
@@ -111,7 +112,11 @@ func main() {
 
 	tiempoOrden := 1
 	go CrearCliente("pymes", tiempoOrden)
-	//go CrearCliente("retail", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("retail", tiempoOrden)
 	for {
 		time.Sleep(5)
 	}
