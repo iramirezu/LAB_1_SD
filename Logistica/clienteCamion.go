@@ -63,14 +63,14 @@ func CrearCamion(numCamion int){
 	if err_p != nil {
 		log.Fatalf("Error al llamar funcion PedirPaquete: %s", err_p)
 	}
-	id_p := response.Id
-	tipo_p := response.Tipo
-	valor_p := response.Valor
-	origen_p := response.Origen
-	destino_p := response.Destino
-	intentos_p := response.Intentos
-	fechaEntrega_p := response.FechaEntrega
-	exito_p := response.Exito
+	id_p := response_p.Id
+	tipo_p := response_p.Tipo
+	valor_p := response_p.Valor
+	origen_p := response_p.Origen
+	destino_p := response_p.Destino
+	intentos_p := response_p.Intentos
+	fechaEntrega_p := response_p.FechaEntrega
+	exito_p := response_p.Exito
 
 	fmt.Println("Id Recibida desde Logistica: " + id_p + ", " + tipo_p + ", " + valor_p + ", " + origen_p + ", " + destino_p + ", " + intentos_p + ", " + fechaEntrega_p + ", " + exito_p)
 
@@ -87,7 +87,7 @@ func CrearCamion(numCamion int){
 	if err_c != nil {
 		log.Fatalf("Error al llamar funcion CompletarEntrega: %s", err_c)
 	}
-	fmt.Println("Orden 'paquete entregado' recibida por Logistica " + response_c)
+	fmt.Println("Paquete entregado, envio de datos a Logistica Completado" + response_c.Respuesta1)
 
 	
 }
