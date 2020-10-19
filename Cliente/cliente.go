@@ -42,7 +42,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	}
 	defer conn.Close()
 
-	c := chatCamion.NewServicioCamionClient(conn) // actualizar
+	c := chatCamion.NewServicioClienteClient(conn) // actualizar
 
 	mensajeCliente := "Hola desde Cliente "
 	response, err := c.FuncHolaMUndo(context.Background(), &chatCliente.MensajeRequest{Mensaje1: mensajeCliente}) // actualizar
