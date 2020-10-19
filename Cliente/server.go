@@ -20,7 +20,7 @@ import (
 func main() {
 	fmt.Println("Comenzando ejecucion de sistema Logistica-Cliente")
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 4060))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 4071))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

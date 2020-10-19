@@ -36,7 +36,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	}
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(":4060", grpc.WithInsecure())
+	conn, err := grpc.Dial(":4071", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se pudo conectar a servidor Logistica: %s", err)
 	}
