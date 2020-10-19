@@ -49,7 +49,7 @@ func serverChatCamion() {
 
 	grpcServer := grpc.NewServer()
 
-	chatCliente.RegisterServicioCamionServer(grpcServer, &s) // actualizar
+	chatCamion.RegisterServicioCamionServer(grpcServer, &s) // actualizar
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
