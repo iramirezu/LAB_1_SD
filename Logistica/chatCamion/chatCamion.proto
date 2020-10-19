@@ -2,7 +2,7 @@ syntax  = "proto3";
 
 package chatCamion;
 
-service ServicioCliente {
+service ServicioCamion {
     rpc PedirPaquete(PeticionPaquete) returns (PaqueteRecibido);
     rpc CompletarEntrega(PaqueteCompletado) returns (MensajeReply);
 }
