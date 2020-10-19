@@ -50,22 +50,23 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	for {
 		time.Sleep(5)
 		rows := leerFilasRegistro(tipoCliente)
-
-		// saca datos de primera linea en el csv que contiene intrucciones del cliente
-		// elimina la linea y la agrega a "(pymes/retail)_usados" para que se puedan volver a usar las intrucciones
-		id_r := rows[1][0] 
-		producto_r := rows[1][1]
-		valor_r := rows[1][2]
-		tienda_r := rows[1][3]
-		destino_r := rows[1][4]
-
-		eliminarFilaRegistro(tipoCliente, 1)
-
-		response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo_r}) // actualizar
-		if err != nil {
-			log.Fatalf("Error al llamar funcion GenerarOrden: %s", err)
+		if rows != nil {
+			// saca datos de primera linea en el csv que contiene intrucciones del cliente
+			// elimina la linea y la agrega a "(pymes/retail)_usados" para que se puedan volver a usar las intrucciones
+			id_r := rows[1][0] 
+			producto_r := rows[1][1]
+			valor_r := rows[1][2]
+			tienda_r := rows[1][3]
+			destino_r := rows[1][4]
+	
+			eliminarFilaRegistro(tipoCliente, 1)
+	
+			response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo_r}) // actualizar
+			if err != nil {
+				log.Fatalf("Error al llamar funcion GenerarOrden: %s", err)
+			}
+			fmt.Println("Id Seguimiento Generado: " + response.Id)
 		}
-		fmt.Println("Id Seguimiento Generado: " + response.Id)
 	}
 
 }
@@ -83,7 +84,8 @@ func leerFilasRegistro(nombreRegistro string) [][]string {
     f.Close()
     if err != nil {
 		fmt.Println("No quedan mas registros")
-        log.Fatal(err)
+		return nil
+		//log.Fatal(err)
     }
     return rows
 }
