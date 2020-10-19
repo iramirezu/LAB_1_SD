@@ -111,7 +111,7 @@ func main() {
 
 	tiempoOrden := 1
 	go CrearCliente("pymes", tiempoOrden)
-	go CrearCliente("retail", tiempoOrden)
+	//go CrearCliente("retail", tiempoOrden)
 	for {
 		time.Sleep(5)
 	}
