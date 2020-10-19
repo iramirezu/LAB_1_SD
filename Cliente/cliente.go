@@ -28,7 +28,7 @@ Cliente:
 	- Realiza 3 consultas de seguimiendo a la orden antes de realizar otra orden
 
 */
-func CrearCliente(tipoCliente string, tiempoOrden int){
+func CrearCliente(tipoCliente string, tiempoOrden int) fin int{
 
 
 	fmt.Println("Nuevo Cliente " + tipoCliente)
@@ -77,6 +77,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 			fmt.Println("Id Seguimiento Generado: " + response.Id)
 		}else{
 			fmt.Println("No quedan Registros en " + tipoCliente + ".csv")
+			return 1
 		}
 	}
 
