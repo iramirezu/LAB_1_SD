@@ -30,7 +30,8 @@ func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdS
 	log.Printf("Nueva Orden Generada con id de producto: %s", id)
 	
 	filasRegistro := leerFilasRegistro("registroLogistica")
-	nuevaFila := [id, producto, valor, tienda, destino, prioritario,strSeguimiento]
+	var nuevaFila[]string
+	nuevaFila = append(nuevaFila, id, producto, valor, tienda, destino, prioritario, strSeguimiento)
 	filasRegistro = append(filasRegistro, nuevaFila)
 	escribirFilasRegistro("registroLogistica", filasRegistro)
 	strSeguimiento := strconv.Itoa(IteradorIdSeguimiento)
