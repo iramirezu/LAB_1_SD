@@ -12,7 +12,6 @@ type Server struct {
 }
 
 func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdSeguimiento, error) {
-	IteradorIdSeguimiento := 1
 	id := mensaje.Id
 	producto := mensaje.Producto
 	valor := mensaje.Valor
