@@ -1,9 +1,10 @@
 package chatCamion
 
 import (
+	"fmt"
 	"log"
 	"encoding/csv"
-	"strconv"
+	//"strconv"
 	"os"
 	"golang.org/x/net/context"
 
@@ -46,7 +47,7 @@ func (s *Server) CompletarEntrega(ctx context.Context, mensaje *PaqueteCompletad
 
 	fmt.Println("Entrega Completada recibida desde camion: " + id_c + ", " + tipo_c + ", " + valor_c + ", " + origen_c + ", " + destino_c + ", " + intentos_c + ", " + fechaEntrega_c + ", " + exito_c)
 	// escribir linea a Registro Logistica
-	return &MensajeReply{respuesta1: "ta bien"}, nil
+	return &MensajeReply{Respuesta1: "ta bien"}, nil
 }
 
 
