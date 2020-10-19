@@ -49,11 +49,11 @@ func CrearCamion(numCamion int){
 	} else if numCamion == 1 {
 		nombreCamion = "Camion Retail 2"
 		fmt.Println("Camion Retail 2")
-		tipoC := "0"
+		tipoC = "0"
 	} else{ 
 		nombreCamion = "Camion Normal 1"
 		fmt.Println("Camion Normal 1")
-		tipoC := "1"
+		tipoC = "1"
 	}
 
 	// Comienza Funcionamiento de Camion
@@ -72,7 +72,7 @@ func CrearCamion(numCamion int){
 	fechaEntrega_p := response_p.FechaEntrega
 	exito_p := response_p.Exito
 
-	fmt.Println("Id Recibida desde Logistica: " + id_p + ", " + tipo_p + ", " + valor_p + ", " + origen_p + ", " + destino_p + ", " + intentos_p + ", " + fechaEntrega_p + ", " + exito_p)
+	fmt.Println("Id Recibida por camion: "+nombreCamion+" desde Logistica: " + id_p + ", " + tipo_p + ", " + valor_p + ", " + origen_p + ", " + destino_p + ", " + intentos_p + ", " + fechaEntrega_p + ", " + exito_p)
 
 
 	id_c := "response.Id"
