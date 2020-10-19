@@ -82,7 +82,7 @@ func (c *SafeCounter) CrearCamion(numCamion int){
 	for id_p == "0" {
 		c.mux.Lock()
 		fmt.Println("Camion: "+nombreCamion+" Esperando Paquetes")
-		time.Sleep(tiempoEsperaSegundoPaquete) // TIEMPO ESPERA SEGUDNO PAQUETE???? SI
+		time.Sleep(time.Second*tiempoEsperaSegundoPaquete) // TIEMPO ESPERA SEGUDNO PAQUETE???? SI
 		// FUNCION ENVIA PETICION DE PAQUETE Y RECIBE PAQUETE PARA GUARDARDO EN REGISTRO
 		response_p, err_p := c.PedirPaquete(context.Background(), &chatCamion.PeticionPaquete{TipoCamion: tipoC})
 		if err_p != nil {
@@ -108,7 +108,7 @@ func (c *SafeCounter) CrearCamion(numCamion int){
 			escribirFilasRegistro(registroCamion, filasRegistro)
 
 			fmt.Println("Esperando SEGUNDO Paquete")
-			time.Sleep(tiempoEsperaSegundoPaquete) 
+			time.Sleep(time.Second*tiempoEsperaSegundoPaquete) 
 
 			response_p, err_p := c.PedirPaquete(context.Background(), &chatCamion.PeticionPaquete{TipoCamion: tipoC})
 			if err_p != nil {
@@ -145,7 +145,7 @@ func (c *SafeCounter) CrearCamion(numCamion int){
 	}
 	// COMIENZA LOOP DE ENTREGA
 	for  numPaquetes > 0 {
-		time.Sleep(tiempoEsperaCamino) 
+		time.Sleep(time.Second*tiempoEsperaCamino) 
 		numPaquetes = numPaquetes - 1
 	}
 	fmt.Println("Entregas COMPLETADAS volviendo a Bodega...")
@@ -289,13 +289,13 @@ func eliminarFilaRegistro(nombreRegistro string, index int) {
 }
 
 func main() {
-	c := SafeCounter{v: make(map[string]int)}
+	scounter := SafeCounter{v: make(map[string]int)}
 
-	go c.CrearCamion(2) // Camion Retail 3
-	go c.CrearCamion(1) // Camion Retail 2
-	go c.CrearCamion(0) // Camion Retail 1
+	go scounter.CrearCamion(2) // Camion Retail 3
+	go scounter.CrearCamion(1) // Camion Retail 2
+	go scounter.CrearCamion(0) // Camion Retail 1
 	for {
-		time.Sleep(5)
+		time.Sleep(time.Second*5)
 	}
 }
 
