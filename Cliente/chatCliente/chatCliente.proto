@@ -1,9 +1,9 @@
 syntax  = "proto3";
 
-package chatCamion;
+package chatCliente;
 
 
-service ServicioCamion {
+service ServicioCliente {
     rpc FuncHolaMUndo(MensajeRequest) returns (MensajeReply);
 }
 

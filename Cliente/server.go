@@ -7,16 +7,16 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/PrestigioExpress/ServicioCamion/chatCamion"
+	"github.com/PrestigioExpress/ServicioCliente/chatCliente"
 )
 
 type server struct{}
 
 func main()  {
 
-	fmt.Println("Comenzando ejecucion de sistema Logistica-Camion")
+	fmt.Println("Comenzando ejecucion de sistema Logistica-Cliente")
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 4040))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 4050))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -25,7 +25,7 @@ func main()  {
 
 	grpcServer := grpc.NewServer()
 
-	chatCamion.RegisterServicioCamionServer(grpcServer, &s)
+	chatCamion.RegisterServicioClienteServer(grpcServer, &s) // actualizar
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
