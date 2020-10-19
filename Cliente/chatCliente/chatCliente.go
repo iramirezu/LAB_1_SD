@@ -3,7 +3,7 @@ package chatCliente
 import (
 	"log"
 	"encoding/csv"
-	"strconv"
+	//"strconv"
 	"os"
 	"golang.org/x/net/context"
 )
@@ -24,7 +24,7 @@ func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdS
 	
 	filasRegistro := leerFilasRegistro("registroLogistica")
 	var nuevaFila[]string
-	strSeguimiento := strconv.Itoa(IteradorIdSeguimiento)
+	strSeguimiento := "1"
 	nuevaFila = append(nuevaFila, id, producto, valor, tienda, destino, prioritario, strSeguimiento)
 	filasRegistro = append(filasRegistro, nuevaFila)
 	escribirFilasRegistro("registroLogistica", filasRegistro)
