@@ -95,8 +95,8 @@ func escribirFilasRegistro(nombreRegistro string, rows [][]string) {
 func main() {
 
 	tiempoOrden := 1
-	go CrearCamion("pymes", tiempoOrden)
-	go CrearCamion("retail", tiempoOrden)
+	go CrearCliente("pymes", tiempoOrden)
+	go CrearCliente("retail", tiempoOrden)
 	for {
 		time.Sleep(5)
 	}
