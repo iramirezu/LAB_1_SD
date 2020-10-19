@@ -46,7 +46,6 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 
 	
 	// Inicio Loop para funcionamiento de Clientes
-	tipo_r := tipoCliente
 	for {
 		time.Sleep(5)
 		rows := leerFilasRegistro(tipoCliente)
@@ -61,16 +60,19 @@ func CrearCliente(tipoCliente string, tiempoOrden int){
 	
 			eliminarFilaRegistro(tipoCliente, 1)
 	
+			tipo := ""
 			if tipoCliente != "retail" {
 				prioritario := rows[1][5]
 				if prioritario == "1" {
-					tipoCliente = "prioritario"
+					tipo = "prioritario"
 				}else{
-					tipoCliente = "normal"
+					tipo = "normal"
 				}
+			}else{
+				tipo = "retail"
 			}
 
-			response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo_r}) // actualizar
+			response, err := c.GenerarOrden(context.Background(), &chatCliente.OrdenGenerada{Id: id_r, Producto: producto_r, Valor:valor_r, Tienda:tienda_r, Destino:destino_r,Tipo:tipo}) // actualizar
 			if err != nil {
 				log.Fatalf("Error al llamar funcion GenerarOrden: %s", err)
 			}
