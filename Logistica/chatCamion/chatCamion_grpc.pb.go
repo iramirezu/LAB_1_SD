@@ -13,81 +13,117 @@ import (
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion7
 
-// ServicioCamionClient is the client API for ServicioCamion service.
+// ServicioClienteClient is the client API for ServicioCliente service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ServicioCamionClient interface {
-	FuncHolaMUndo(ctx context.Context, in *MensajeRequest, opts ...grpc.CallOption) (*MensajeReply, error)
+type ServicioClienteClient interface {
+	PedirPaquete(ctx context.Context, in *PeticionPaquete, opts ...grpc.CallOption) (*PaqueteRecibido, error)
+	CompletarEntrega(ctx context.Context, in *PaqueteCompletado, opts ...grpc.CallOption) (*MensajeReply, error)
 }
 
-type servicioCamionClient struct {
+type servicioClienteClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewServicioCamionClient(cc grpc.ClientConnInterface) ServicioCamionClient {
-	return &servicioCamionClient{cc}
+func NewServicioClienteClient(cc grpc.ClientConnInterface) ServicioClienteClient {
+	return &servicioClienteClient{cc}
 }
 
-func (c *servicioCamionClient) FuncHolaMUndo(ctx context.Context, in *MensajeRequest, opts ...grpc.CallOption) (*MensajeReply, error) {
-	out := new(MensajeReply)
-	err := c.cc.Invoke(ctx, "/chatCamion.ServicioCamion/FuncHolaMUndo", in, out, opts...)
+func (c *servicioClienteClient) PedirPaquete(ctx context.Context, in *PeticionPaquete, opts ...grpc.CallOption) (*PaqueteRecibido, error) {
+	out := new(PaqueteRecibido)
+	err := c.cc.Invoke(ctx, "/chatCamion.ServicioCliente/PedirPaquete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServicioCamionServer is the server API for ServicioCamion service.
-// All implementations should embed UnimplementedServicioCamionServer
+func (c *servicioClienteClient) CompletarEntrega(ctx context.Context, in *PaqueteCompletado, opts ...grpc.CallOption) (*MensajeReply, error) {
+	out := new(MensajeReply)
+	err := c.cc.Invoke(ctx, "/chatCamion.ServicioCliente/CompletarEntrega", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ServicioClienteServer is the server API for ServicioCliente service.
+// All implementations should embed UnimplementedServicioClienteServer
 // for forward compatibility
-type ServicioCamionServer interface {
-	FuncHolaMUndo(context.Context, *MensajeRequest) (*MensajeReply, error)
+type ServicioClienteServer interface {
+	PedirPaquete(context.Context, *PeticionPaquete) (*PaqueteRecibido, error)
+	CompletarEntrega(context.Context, *PaqueteCompletado) (*MensajeReply, error)
 }
 
-// UnimplementedServicioCamionServer should be embedded to have forward compatible implementations.
-type UnimplementedServicioCamionServer struct {
+// UnimplementedServicioClienteServer should be embedded to have forward compatible implementations.
+type UnimplementedServicioClienteServer struct {
 }
 
-func (UnimplementedServicioCamionServer) FuncHolaMUndo(context.Context, *MensajeRequest) (*MensajeReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FuncHolaMUndo not implemented")
+func (UnimplementedServicioClienteServer) PedirPaquete(context.Context, *PeticionPaquete) (*PaqueteRecibido, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PedirPaquete not implemented")
+}
+func (UnimplementedServicioClienteServer) CompletarEntrega(context.Context, *PaqueteCompletado) (*MensajeReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompletarEntrega not implemented")
 }
 
-// UnsafeServicioCamionServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ServicioCamionServer will
+// UnsafeServicioClienteServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ServicioClienteServer will
 // result in compilation errors.
-type UnsafeServicioCamionServer interface {
-	mustEmbedUnimplementedServicioCamionServer()
+type UnsafeServicioClienteServer interface {
+	mustEmbedUnimplementedServicioClienteServer()
 }
 
-func RegisterServicioCamionServer(s *grpc.Server, srv ServicioCamionServer) {
-	s.RegisterService(&_ServicioCamion_serviceDesc, srv)
+func RegisterServicioClienteServer(s *grpc.Server, srv ServicioClienteServer) {
+	s.RegisterService(&_ServicioCliente_serviceDesc, srv)
 }
 
-func _ServicioCamion_FuncHolaMUndo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MensajeRequest)
+func _ServicioCliente_PedirPaquete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PeticionPaquete)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ServicioCamionServer).FuncHolaMUndo(ctx, in)
+		return srv.(ServicioClienteServer).PedirPaquete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/chatCamion.ServicioCamion/FuncHolaMUndo",
+		FullMethod: "/chatCamion.ServicioCliente/PedirPaquete",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServicioCamionServer).FuncHolaMUndo(ctx, req.(*MensajeRequest))
+		return srv.(ServicioClienteServer).PedirPaquete(ctx, req.(*PeticionPaquete))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _ServicioCamion_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "chatCamion.ServicioCamion",
-	HandlerType: (*ServicioCamionServer)(nil),
+func _ServicioCliente_CompletarEntrega_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PaqueteCompletado)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServicioClienteServer).CompletarEntrega(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/chatCamion.ServicioCliente/CompletarEntrega",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServicioClienteServer).CompletarEntrega(ctx, req.(*PaqueteCompletado))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _ServicioCliente_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "chatCamion.ServicioCliente",
+	HandlerType: (*ServicioClienteServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "FuncHolaMUndo",
-			Handler:    _ServicioCamion_FuncHolaMUndo_Handler,
+			MethodName: "PedirPaquete",
+			Handler:    _ServicioCliente_PedirPaquete_Handler,
+		},
+		{
+			MethodName: "CompletarEntrega",
+			Handler:    _ServicioCliente_CompletarEntrega_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
