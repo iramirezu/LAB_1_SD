@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"os"
 	"golang.org/x/net/context"
-
-	//"time"
+	"fmt"
+	"time"
 )
 
 type Server struct {
@@ -21,9 +21,7 @@ func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdS
 	destino := mensaje.Destino
 	tipo := mensaje.Tipo
 
-    //t := time.Now()
-	//timestamp := t.Format("2006-01-02 15:04:05")
-	timestamp := "2006-01-02 15:04:05"
+    timestamp := fechaHoy()
 	
 	filasRegistro := leerFilasRegistro("registroLogistica")
 	intSeguimiento := cantFilasRegistro("registroLogistica")
@@ -44,6 +42,12 @@ func (s *Server) ConsultarOrden(ctx context.Context, mensaje *IdSeguimiento) (*M
 	return &MensajeReply{Respuesta1: "Hola Cliente qlo"}, nil
 }
 
+func fechaHoy() string {
+	t := time.Now()
+	timestamp := fmt.Sprintf("%02d-%02d-%d",
+		t.Year(), t.Month(), t.Day())
+	return timestamp
+}
 
 func cantFilasRegistro(nombreRegistro string) int { // numero de seguimiento sera un autogenerado que se relaciona directamente con la cantidad de registros
     rows := leerFilasRegistro(nombreRegistro)

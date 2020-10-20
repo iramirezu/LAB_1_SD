@@ -249,6 +249,7 @@ func fechaHoy() string {
 		t.Year(), t.Month(), t.Day())
 	return timestamp
 }
+
 func cantFilasRegistro(nombreRegistro string) int { // numero de seguimiento sera un autogenerado que se relaciona directamente con la cantidad de registros
     rows := leerFilasRegistro(nombreRegistro)
 	cant := (len(rows))	

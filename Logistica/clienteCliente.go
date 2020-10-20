@@ -7,7 +7,7 @@ import (
 	"time"
 	//"strconv"
 
-	//"math/rand"
+	"math/rand"
 
 	"log"
 	"fmt"
@@ -28,7 +28,7 @@ Cliente:
 	- Realiza 3 consultas de seguimiendo a la orden antes de realizar otra orden
 
 */
-func CrearCliente(tipoCliente string, tiempoOrden int) int{
+func CrearCliente(tipoCliente string, tiempoOrden int32) int{
 
 
 	fmt.Println("Nuevo Cliente " + tipoCliente)
@@ -46,7 +46,9 @@ func CrearCliente(tipoCliente string, tiempoOrden int) int{
 	
 	// Inicio Loop para funcionamiento de Clientes
 	for {
-		time.Sleep(10)
+		tiempoF := 1000 * tiempoOrden
+		time.Sleep(time.Duration(rand.Int31n(tiempoF)) * time.Millisecond)
+
 		rows := leerFilasRegistro(tipoCliente)
 		if rows != nil {
 			// saca datos de primera linea en el csv que contiene intrucciones del cliente
@@ -84,10 +86,6 @@ func CrearCliente(tipoCliente string, tiempoOrden int) int{
 
 
 }
-
-
-
-
 
 func leerFilasRegistro(nombreRegistro string) [][]string {
     f, err := os.Open("Registros/"+nombreRegistro+".csv")
@@ -129,9 +127,13 @@ func eliminarFilaRegistro(nombreRegistro string, index int) {
 }
 
 
+
 func main() {
 
-	tiempoOrden := 1
+	var tiempoOrden int32
+	fmt.Println("Ingresa Tiempo entre Ordenes de Clientes: ")
+	 _, err := fmt.Scanf("%d", &tiempoOrden)
+	 
 	go CrearCliente("pymes", tiempoOrden)
 	go CrearCliente("pymes", tiempoOrden)
 	go CrearCliente("retail", tiempoOrden)

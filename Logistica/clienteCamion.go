@@ -36,7 +36,8 @@ type SafeCounter struct {
 //		- Fecha cuando se entrega paquede
 //		- Si es 0 el paquete no se entrego al cliente, ya no quedan intentos
 
-func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
+
+func (scounter *SafeCounter) CrearCamion(numCamion int, key string, tiempoSegunda int32, tiempoCamino int32){
 	// Conexion con servidor Logistica "dist125"
 	var conn *grpc.ClientConn
 	conn, err := grpc.Dial("dist125:5151", grpc.WithInsecure())
@@ -88,7 +89,6 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 		valPaquetesPorEntregar = append(valPaquetesPorEntregar, "0", "0")
 		tipoPaquetesPorEntregar = append(tipoPaquetesPorEntregar, "0", "0")
 		for id_p == "0" {
-			time.Sleep(time.Second*2) // TIEMPO ESPERA SEGUDNO PAQUETE???? SI
 			// FUNCION ENVIA PETICION DE PAQUETE Y RECIBE PAQUETE PARA GUARDARDO EN REGISTRO
 			response_p, err_p := c.PedirPaquete(context.Background(), &chatCamion.PeticionPaquete{TipoCamion: tipoC})
 			if err_p != nil {
@@ -118,8 +118,8 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 				filasRegistro = append(filasRegistro, nuevaFila)
 				escribirFilasRegistro(registroCamion, filasRegistro)
 
-				fmt.Println("Esperando SEGUNDO Paquete")
-				time.Sleep(time.Second*2) 
+				tiempoF := 1000 * tiempoSegunda
+				time.Sleep(time.Duration(rand.Int31n(tiempoF)) * time.Millisecond)
 
 				response_p, err_p := c.PedirPaquete(context.Background(), &chatCamion.PeticionPaquete{TipoCamion: tipoC})
 				if err_p != nil {
@@ -168,7 +168,9 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 		//valPaquetesPorEntregar
 		// COMIENZA LOOP DE ENTREGA
 		for  numPaquetes > 0 {
-			time.Sleep(time.Second*10) // TIEMPO CAMINO INTENTO PAQUETE 
+			tiempoF := 1000 * tiempoCamino
+			time.Sleep(time.Duration(rand.Int31n(tiempoF)) * time.Millisecond)
+
 			idPaqueteAux := idPaquetesPorEntregar[indexPaqueteIntento]
 			valPaqueteAux := valPaquetesPorEntregar[indexPaqueteIntento]
 			tipoPaqueteAux := tipoPaquetesPorEntregar[indexPaqueteIntento]
@@ -297,7 +299,8 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 			
 		}
 		fmt.Println("Entregas COMPLETADAS volviendo a Bodega...")
-		time.Sleep(time.Second*10) // TIEMPO CAMINO INTENTO PAQUETE 
+		tiempoF := 1000 * tiempoCamino
+		time.Sleep(time.Duration(rand.Int31n(tiempoF)) * time.Millisecond)
 		// TIEMPO DE ESPERA PARA VOLVER A LA BODEGA
 	}
 
@@ -429,11 +432,19 @@ func eliminarFilaRegistro(nombreRegistro string, index int) {
 func main() {
 	scounter := SafeCounter{v: make(map[string]int)}
 
-	go scounter.CrearCamion(0,"0") // Camion Retail 1
+	var tiempoCamino int32
+	fmt.Println("Ingresa Tiempo que se demora el camion de camino a una entrega: ")
+	fmt.Println("Este tiempo es el mismo que toma entre cada intento y cuando se dirige de camino a la bodega")
+	 _, err := fmt.Scanf("%d", &tiempoCamino)
+
+	 var tiempoSegunda int32
+	fmt.Println("Ingresa Tiempo que espera el camion por un segundo paquete: ")
+	 _, err := fmt.Scanf("%d", &tiempoSegunda)
+	go scounter.CrearCamion(0,"0", tiempoSegunda, tiempoCamino) // Camion Retail 1
 	time.Sleep(time.Second)
-	go scounter.CrearCamion(1,"1") // Camion Retail 2
+	go scounter.CrearCamion(1,"1", tiempoSegunda, tiempoCamino) // Camion Retail 2
 	time.Sleep(time.Second)
-	go scounter.CrearCamion(2,"2") // Camion Normal 1
+	go scounter.CrearCamion(2,"2", tiempoSegunda, tiempoCamino) // Camion Normal 1
 	time.Sleep(time.Second)
 	for {
 		time.Sleep(time.Second*5)
