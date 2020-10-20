@@ -92,9 +92,9 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 		}
 	}
 	
-	fmt.Println("Cola Pr:  " + ColaPrioritaria) 
-	fmt.Println("ColaNormal:  " +ColaNormal)
-	fmt.Println("ColaRetail:  " + ColaRetail)
+	fmt.Println(ColaPrioritaria) 
+	fmt.Println(ColaNormal)
+	fmt.Println(ColaRetail)
 	// LEE PAQUETES NUEVOS AGREGADOS (CON INTENTOS = 0 QUE NO SE ENCUENTRAN EN LA COLA)
 	// PAQUETES NUEVOS SON AGREGADOS A LA COLA
 
