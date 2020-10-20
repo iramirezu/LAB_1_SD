@@ -56,37 +56,47 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 	}
 	
 	 
-	fmt.Println(ColaPrioritaria) 
-	fmt.Println(ColaNormal)
-	fmt.Println(ColaRetail)
+	//fmt.Println(ColaPrioritaria) 
+	//fmt.Println(ColaNormal)
+	//fmt.Println(ColaRetail)
 	// LEE PAQUETES NUEVOS AGREGADOS (CON INTENTOS = 0 QUE NO SE ENCUENTRAN EN LA COLA)
 	// PAQUETES NUEVOS SON AGREGADOS A LA COLA
 
 	// PRIMER PAQUETE DE LA COLA ES ENTREGADO AL CAMION Y SE LE AGREGA FECHA ENTREGA
 	tipoCamion := mensaje.TipoCamion
+	id_r := "0"
+	tipo_r := "0"
+	valor_r := "0"
+	origen_r := "0"
+	destino_r := "0"
+	intentos_r := "0"
+	fechaEntrega_r := "0"
+	exito_r := "0"
 	if tipoCamion == "0" { // retail 1 y 2 -----------------------------------------------------------------------------------------
 		// entrega paquetes retail primero, luego entrega paquetes prioritarios
 		if len(ColaRetail) > 0{ // entrega paquete retail
 			// borra paquete de cola retail y envia paquete
 			idPaqueteEnviar := ColaRetail[0]
+			fmt.Println("Paquete retail por enviar: " + idPaqueteEnviar)
 			ColaRetail[0] = "" // Elimina Primer elemento de la cola
 			ColaRetail = ColaRetail[1:]
 			rows := leerFilasRegistro("registroLogistica")
-			for i := 0; i < len(rows); i++ {
-				if rows[i][0] == idPaqueteEnviar {
-					id_r := rows[i][1]
-					tipo_r := rows[i][2]
-					valor_r := rows[i][4]
-					origen_r := rows[i][5]
-					destino_r := rows[i][6]
-					intentos_r := rows[i][8]
+
+			for i := 1; i < len(rows); i++ {
+				if rows[i][1] == idPaqueteEnviar {
+					id_r = rows[i][1]
+					tipo_r = rows[i][2]
+					valor_r = rows[i][4]
+					origen_r = rows[i][5]
+					destino_r = rows[i][6]
+					intentos_r = rows[i][8]
 					rows[i][9] = fechaHoy()
-					fechaEntrega_r := rows[i][9]
-					exito_r := rows[i][10]
+					fechaEntrega_r = rows[i][9]
+					exito_r = rows[i][10]
 					escribirFilasRegistro("registroLogistica", rows)
 					fmt.Println("Camion RETAIL realiza peticion de paquete, paquete RETAIL enviado")
 					
-					return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+					//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 
 				}
 			}
@@ -97,36 +107,36 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 				ColaPrioritaria[0] = "" // Elimina Primer elemento de la cola
 				ColaPrioritaria = ColaPrioritaria[1:]
 				rows := leerFilasRegistro("registroLogistica")
-				for i := 0; i < len(rows); i++ {
-					if rows[i][0] == idPaqueteEnviar {
-						id_r := rows[i][1]
-						tipo_r := rows[i][2]
-						valor_r := rows[i][4]
-						origen_r := rows[i][5]
-						destino_r := rows[i][6]
-						intentos_r := rows[i][8]
+				for i := 1; i < len(rows); i++ {
+					if rows[i][1] == idPaqueteEnviar {
+						id_r = rows[i][1]
+						tipo_r = rows[i][2]
+						valor_r = rows[i][4]
+						origen_r = rows[i][5]
+						destino_r = rows[i][6]
+						intentos_r = rows[i][8]
 						rows[i][9] = fechaHoy()
-						fechaEntrega_r := rows[i][9]
-						exito_r := rows[i][10]
+						fechaEntrega_r = rows[i][9]
+						exito_r = rows[i][10]
 						escribirFilasRegistro("registroLogistica", rows)
 						fmt.Println("Camion RETAIL realiza peticion de paquete, paquete PRIORIORITARIO enviado")
 						
-						return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+						//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 
 					}
 				}
 			} else{ // No hay paquetes por entregar
-				id_r := "0";
-				tipo_r := "0";
-				valor_r := "0";
-				origen_r := "0";
-				destino_r := "0";
-				intentos_r := "0";
-				fechaEntrega_r := "0";
-				exito_r := "0";
+				id_r = "0";
+				tipo_r = "0";
+				valor_r = "0";
+				origen_r = "0";
+				destino_r = "0";
+				intentos_r = "0";
+				fechaEntrega_r = "0";
+				exito_r = "0";
 				fmt.Println("Camion RETAIL realiza peticion de paquete, NO hay paquetes retail o prioritarios por entregar")
 				
-				return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+				//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 	
 			}
 		}
@@ -138,21 +148,21 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 			ColaPrioritaria[0] = "" // Elimina Primer elemento de la cola
 			ColaPrioritaria = ColaPrioritaria[1:]
 			rows := leerFilasRegistro("registroLogistica")
-			for i := 0; i < len(rows); i++ {
-				if rows[i][0] == idPaqueteEnviar {
-					id_r := rows[i][1]
-					tipo_r := rows[i][2]
-					valor_r := rows[i][4]
-					origen_r := rows[i][5]
-					destino_r := rows[i][6]
-					intentos_r := rows[i][8]
+			for i := 1; i < len(rows); i++ {
+				if rows[i][1] == idPaqueteEnviar {
+					id_r = rows[i][1]
+					tipo_r = rows[i][2]
+					valor_r = rows[i][4]
+					origen_r = rows[i][5]
+					destino_r = rows[i][6]
+					intentos_r = rows[i][8]
 					rows[i][9] = fechaHoy()
-					fechaEntrega_r := rows[i][9]
-					exito_r := rows[i][10]
+					fechaEntrega_r = rows[i][9]
+					exito_r = rows[i][10]
 					escribirFilasRegistro("registroLogistica", rows)
 					fmt.Println("Camion NORMAL realiza peticion de paquete, paquete PRIORIORITARIO enviado")
 					
-					return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+					//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 
 				}
 			}
@@ -163,51 +173,42 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 				ColaNormal[0] = "" // Elimina Primer elemento de la cola
 				ColaNormal = ColaNormal[1:]
 				rows := leerFilasRegistro("registroLogistica")
-				for i := 0; i < len(rows); i++ {
-					if rows[i][0] == idPaqueteEnviar {
-						id_r := rows[i][1]
-						tipo_r := rows[i][2]
-						valor_r := rows[i][4]
-						origen_r := rows[i][5]
-						destino_r := rows[i][6]
-						intentos_r := rows[i][8]
+				for i := 1; i < len(rows); i++ {
+					if rows[i][1] == idPaqueteEnviar {
+						id_r = rows[i][1]
+						tipo_r = rows[i][2]
+						valor_r = rows[i][4]
+						origen_r = rows[i][5]
+						destino_r = rows[i][6]
+						intentos_r = rows[i][8]
 						rows[i][9] = fechaHoy()
-						fechaEntrega_r := rows[i][9]
-						exito_r := rows[i][10]
+						fechaEntrega_r = rows[i][9]
+						exito_r = rows[i][10]
 						escribirFilasRegistro("registroLogistica", rows)
 						fmt.Println("Camion NORMAL realiza peticion de paquete, paquete NORMAL enviado")
 						
-						return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+						//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 
 					}
 				}
 
 			} else{ // No hay paquetes por entregar
-				id_r := "0"
-				tipo_r := "0"
-				valor_r := "0"
-				origen_r := "0"
-				destino_r := "0"
-				intentos_r := "0"
-				fechaEntrega_r := "0"
-				exito_r := "0"
+				id_r = "0"
+				tipo_r = "0"
+				valor_r = "0"
+				origen_r = "0"
+				destino_r = "0"
+				intentos_r = "0"
+				fechaEntrega_r = "0"
+				exito_r = "0"
 				fmt.Println("Camion NORMAL realiza peticion de paquete, NO hay paquetes  normales o prioritarios por entregar")
 				
-				return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+				//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 	
 			}
 		}
 	}
-	id_r := "0"
-	tipo_r := "0"
-	valor_r := "0"
-	origen_r := "0"
-	destino_r := "0"
-	intentos_r := "0"
-	fechaEntrega_r := "0"
-	exito_r := "0"
 
-	//return nil
 	return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 	
 }
