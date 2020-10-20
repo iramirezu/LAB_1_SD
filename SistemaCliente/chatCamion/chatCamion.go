@@ -253,7 +253,7 @@ func (s *Server) CompletarEntrega(ctx context.Context, mensaje *PaqueteCompletad
 func send_row_to_financiero(idPaquete string, tipo string, valor string, intentos string, fechaEntrega string, exito string) {
 	var message string
 	message=fmt.Sprintf(`{"idPaquete": %s,"tipo": "%s","valor": %s,"intentos":%s,"fechaEntrega":"%s","exito":%s}`,idPaquete,tipo,valor,intentos,fechaEntrega, exito)
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	conn, err := amqp.Dial("amqp://sd:sd@dist127:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
