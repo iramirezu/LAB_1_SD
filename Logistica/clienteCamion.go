@@ -80,6 +80,12 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 
 	// LOOP QUE ESPERA PAQUETES ANTES DE SALIR A ENTREGARLOS
 	scounter.mux.Lock()
+	var idPaquetesPorEntregar[]string
+	var valPaquetesPorEntregar[]string
+	var tipoPaquetesPorEntregar[]string
+	idPaquetesPorEntregar = append(idPaquetesPorEntregar, "0", "0")
+	valPaquetesPorEntregar = append(valPaquetesPorEntregar, "0", "0")
+	tipoPaquetesPorEntregar = append(tipoPaquetesPorEntregar, "0", "0")
 	for id_p == "0" {
 		time.Sleep(time.Second*2) // TIEMPO ESPERA SEGUDNO PAQUETE???? SI
 		// FUNCION ENVIA PETICION DE PAQUETE Y RECIBE PAQUETE PARA GUARDARDO EN REGISTRO
@@ -101,6 +107,10 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 			fmt.Println("Se encontro un PRIMER paquete")
 			fmt.Println("Id Recibida por camion: "+nombreCamion+" desde Logistica: " + id_p + ", " + tipo_p + ", " + valor_p + ", " + origen_p + ", " + destino_p + ", " + intentos_p + ", " + fechaEntrega_p + ", " + exito_p)
 			// ESCRIBIR PAQUETES A CSV DE CAMION
+			
+			idPaquetesPorEntregar[0] = id_p
+			valPaquetesPorEntregar[0] = valor_p
+			tipoPaquetesPorEntregar[0] = tipo_p
 			filasRegistro := leerFilasRegistro(registroCamion)
 			var nuevaFila[]string
 			nuevaFila = append(nuevaFila, id_p, tipo_p, valor_p, origen_p, destino_p, intentos_p, fechaEntrega_p, exito_p)
@@ -130,6 +140,9 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 				fmt.Println("Se encontro un SEGUNDO paquete")
 				fmt.Println("Id Recibida por camion: "+nombreCamion+" desde Logistica: " + id_p + ", " + tipo_p + ", " + valor_p + ", " + origen_p + ", " + destino_p + ", " + intentos_p + ", " + fechaEntrega_p + ", " + exito_p)
 				// ESCRIBIR PAQUETES A CSV DE CAMION
+				idPaquetesPorEntregar[1] = id_p
+				valPaquetesPorEntregar[1] = valor_p
+				tipoPaquetesPorEntregar[1] = tipo_p
 				filasRegistro := leerFilasRegistro(registroCamion)
 				var nuevaFila[]string
 				nuevaFila = append(nuevaFila, id_p, tipo_p, valor_p, origen_p, destino_p, intentos_p, fechaEntrega_p, exito_p)
@@ -143,10 +156,140 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 	}
 	scounter.v[key]++
 	scounter.mux.Unlock()
+
+	indexPaqueteIntento := 0
+	if numPaquetes == 2 { // 2 paquetes
+		if valPaquetesPorEntregar[1] > valPaquetesPorEntregar[0] {
+			indexPaqueteIntento = 1
+		}
+	}
+	//idPaquetesPorEntregar 
+	//valPaquetesPorEntregar
 	// COMIENZA LOOP DE ENTREGA
 	for  numPaquetes > 0 {
-		time.Sleep(time.Second*2) 
-		numPaquetes = numPaquetes - 1
+		time.Sleep(time.Second*10) // TIEMPO CAMINO INTENTO PAQUETE 
+		idPaqueteAux := idPaquetesPorEntregar[indexPaqueteIntento]
+		valPaqueteAux := valPaquetesPorEntregar[indexPaqueteIntento]
+		tipoPaqueteAux := tipoPaquetesPorEntregar[indexPaqueteIntento]
+		maxIntentos := 0
+		intentos := agregarIntento(registroCamion, idPaqueteAux)
+		if tipoPaqueteAux == "retail" {
+			maxIntentos = 3
+		}else{ // prioritario
+			maxIntentos = 2
+			intVal,_ := strconv.Atoi(valPaqueteAux)
+			if intVal < 20 {
+				maxIntentos = 1
+			}
+		}
+		if numPaquetes == 2 { // 2 paquetes ---------------------------------------------------------
+			// intento entrega
+			if indexPaqueteIntento == 0 { // cambia index de paquete para siguiente intento
+				indexPaqueteIntento = 1
+			}else{
+				indexPaqueteIntento = 0
+			}
+			entregaCompleta := entregaLograda()
+			if entregaCompleta {
+				numPaquetes = numPaquetes - 1
+				// guarda cambios y envia confirmacion de orden ENTREGADA
+				completarEntrega(registroCamion, idPaqueteAux, "1")
+				rows := leerFilasRegistro(registroCamion)
+				for i := 1; i < len(rows); i++ {
+					if rows[i][0] ==  idPaqueteAux{
+						id_c := rows[i][0]
+						tipo_c := rows[i][1]
+						valor_c := rows[i][2]
+						origen_c := rows[i][3]
+						destino_c := rows[i][4]
+						intentos_c := rows[i][5]
+						fechaEntrega_c := rows[i][6]
+						exito_c := rows[i][7]
+						response_c, err_c := c.CompletarEntrega(context.Background(), &chatCamion.PaqueteCompletado{Id:id_c, Tipo:tipo_c, Valor:valor_c, Origen:origen_c, Destino:destino_c,Intentos:intentos_c, FechaEntrega:fechaEntrega_c, Exito:exito_c})
+						if err_c != nil {
+							log.Fatalf("Error al llamar funcion CompletarEntrega: %s", err_c)
+						}
+						fmt.Println("Envio Paquete: "+idPaqueteAux+" Completado, envio de datos a Logistica Completado" + response_c.Respuesta1)
+					}
+				}
+			}else{
+				if intentos >= maxIntentos {
+					numPaquetes = numPaquetes - 1
+					// guarda cambios y envia confirmacion de orden NO ENTREGADA
+					completarEntrega(registroCamion, idPaqueteAux, "0") // Guarda Cambios
+					rows := leerFilasRegistro(registroCamion)
+					for i := 1; i < len(rows); i++ {
+						if rows[i][0] ==  idPaqueteAux{
+							id_c := rows[i][0]
+							tipo_c := rows[i][1]
+							valor_c := rows[i][2]
+							origen_c := rows[i][3]
+							destino_c := rows[i][4]
+							intentos_c := rows[i][5]
+							fechaEntrega_c := rows[i][6]
+							exito_c := rows[i][7]
+							response_c, err_c := c.CompletarEntrega(context.Background(), &chatCamion.PaqueteCompletado{Id:id_c, Tipo:tipo_c, Valor:valor_c, Origen:origen_c, Destino:destino_c,Intentos:intentos_c, FechaEntrega:fechaEntrega_c, Exito:exito_c})
+							if err_c != nil {
+								log.Fatalf("Error al llamar funcion CompletarEntrega: %s", err_c)
+							}
+							fmt.Println("Envio Paquete: "+idPaqueteAux+" Completado, envio de datos a Logistica Completado" + response_c.Respuesta1)
+						}
+					}
+				} // else continua intentanto viaje con el otro paquete
+			}
+		}else { // 1 paquete -------------------------------------------
+			entregaCompleta := entregaLograda()
+			if entregaCompleta {
+				numPaquetes = numPaquetes - 1
+				// guarda cambios y envia confirmacion de orden ENTREGADA
+				completarEntrega(registroCamion, idPaqueteAux, "1")
+				rows := leerFilasRegistro(registroCamion)
+				for i := 1; i < len(rows); i++ {
+					if rows[i][0] ==  idPaqueteAux{
+						id_c := rows[i][0]
+						tipo_c := rows[i][1]
+						valor_c := rows[i][2]
+						origen_c := rows[i][3]
+						destino_c := rows[i][4]
+						intentos_c := rows[i][5]
+						fechaEntrega_c := rows[i][6]
+						exito_c := rows[i][7]
+						response_c, err_c := c.CompletarEntrega(context.Background(), &chatCamion.PaqueteCompletado{Id:id_c, Tipo:tipo_c, Valor:valor_c, Origen:origen_c, Destino:destino_c,Intentos:intentos_c, FechaEntrega:fechaEntrega_c, Exito:exito_c})
+						if err_c != nil {
+							log.Fatalf("Error al llamar funcion CompletarEntrega: %s", err_c)
+						}
+						fmt.Println("Envio Paquete: "+idPaqueteAux+" Completado, envio de datos a Logistica Completado" + response_c.Respuesta1)
+					}
+				}
+				
+			}else{
+				if intentos == maxIntentos {
+					numPaquetes = numPaquetes - 1
+					// guarda cambios y envia confirmacion de orden NO ENTREGADA
+					completarEntrega(registroCamion, idPaqueteAux, "0") // Guarda Cambios
+					// FUNCION QUE ENVIA ORDEN COMPLETADA CON DATOS ACTUALIZADOS DEL PAQUETE
+					rows := leerFilasRegistro(registroCamion)
+					for i := 1; i < len(rows); i++ {
+						if rows[i][0] ==  idPaqueteAux{
+							id_c := rows[i][0]
+							tipo_c := rows[i][1]
+							valor_c := rows[i][2]
+							origen_c := rows[i][3]
+							destino_c := rows[i][4]
+							intentos_c := rows[i][5]
+							fechaEntrega_c := rows[i][6]
+							exito_c := rows[i][7]
+							response_c, err_c := c.CompletarEntrega(context.Background(), &chatCamion.PaqueteCompletado{Id:id_c, Tipo:tipo_c, Valor:valor_c, Origen:origen_c, Destino:destino_c,Intentos:intentos_c, FechaEntrega:fechaEntrega_c, Exito:exito_c})
+							if err_c != nil {
+								log.Fatalf("Error al llamar funcion CompletarEntrega: %s", err_c)
+							}
+							fmt.Println("Envio Paquete: "+idPaqueteAux+" Completado, envio de datos a Logistica Completado" + response_c.Respuesta1)
+						}
+					}
+				}// else sigue intentando entregar el paquete
+			}
+		}
+		
 	}
 	fmt.Println("Entregas COMPLETADAS volviendo a Bodega...")
 
@@ -162,20 +305,7 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 
 
 
-	// FUNCION QUE ENVIA ORDEN COMPLETADA CON DATOS ACTUALIZADOS DEL PAQUETE
-	id_c := "response.Id"
-	tipo_c := "response.Tipo"
-	valor_c := "response.Valor"
-	origen_c := "response.Origen"
-	destino_c := "response.Destino"
-	intentos_c := "response.Intentos"
-	fechaEntrega_c := "response.FechaEntrega"
-	exito_c := "response.Exito"
-	response_c, err_c := c.CompletarEntrega(context.Background(), &chatCamion.PaqueteCompletado{Id:id_c, Tipo:tipo_c, Valor:valor_c, Origen:origen_c, Destino:destino_c,Intentos:intentos_c, FechaEntrega:fechaEntrega_c, Exito:exito_c})
-	if err_c != nil {
-		log.Fatalf("Error al llamar funcion CompletarEntrega: %s", err_c)
-	}
-	fmt.Println("Paquete entregado, envio de datos a Logistica Completado" + response_c.Respuesta1)
+	
 
 	
 }
