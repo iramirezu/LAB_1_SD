@@ -21,7 +21,7 @@ import (
 func serverChatCliente() {
 	fmt.Println("Comenzando ejecucion de sistema Logistica-Cliente")
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 5252))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 6252))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -40,7 +40,7 @@ func serverChatCliente() {
 func serverChatCamion() {
 	fmt.Println("Comenzando ejecucion de sistema Logistica-Camion")
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 5151))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 6151))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

@@ -40,7 +40,7 @@ type SafeCounter struct {
 func (scounter *SafeCounter) CrearCamion(numCamion int, key string, tiempoSegunda int32, tiempoCamino int32){
 	// Conexion con servidor Logistica "dist125"
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist125:5151", grpc.WithInsecure())
+	conn, err := grpc.Dial("dist125:6151", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se pudo conectar a servidor Logistica: %s", err)
 	}

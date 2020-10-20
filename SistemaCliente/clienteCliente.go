@@ -34,7 +34,7 @@ func CrearCliente(tipoCliente string, tiempoOrden int32) int{
 	fmt.Println("Nuevo Cliente " + tipoCliente)
 
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("dist125:5252", grpc.WithInsecure())
+	conn, err := grpc.Dial("dist125:6252", grpc.WithInsecure())
 	if err != nil {
 		return 0
 		log.Fatalf("No se pudo conectar a servidor Logistica: %s", err)
