@@ -436,10 +436,21 @@ func main() {
 	fmt.Println("Ingresa Tiempo que se demora el camion de camino a una entrega: ")
 	fmt.Println("Este tiempo es el mismo que toma entre cada intento y cuando se dirige de camino a la bodega")
 	 _, err := fmt.Scanf("%d", &tiempoCamino)
-
-	 var tiempoSegunda int32
+	for err != nil {
+		fmt.Println("Input invalido")
+		fmt.Println("Ingresa Tiempo que se demora el camion de camino a una entrega: ")
+		fmt.Println("Este tiempo es el mismo que toma entre cada intento y cuando se dirige de camino a la bodega")
+		_, err = fmt.Scanf("%d", &tiempoCamino)
+	} 
+	
+	var tiempoSegunda int32
 	fmt.Println("Ingresa Tiempo que espera el camion por un segundo paquete: ")
-	 _, err := fmt.Scanf("%d", &tiempoSegunda)
+	_, err := fmt.Scanf("%d", &tiempoSegunda)
+	for err != nil {
+		fmt.Println("Input invalido")
+		fmt.Println("Ingresa Tiempo que espera el camion por un segundo paquete: ")
+		_, err = fmt.Scanf("%d", &tiempoSegunda)
+	} 
 	go scounter.CrearCamion(0,"0", tiempoSegunda, tiempoCamino) // Camion Retail 1
 	time.Sleep(time.Second)
 	go scounter.CrearCamion(1,"1", tiempoSegunda, tiempoCamino) // Camion Retail 2

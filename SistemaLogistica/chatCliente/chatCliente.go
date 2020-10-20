@@ -13,6 +13,8 @@ import (
 type Server struct {
 }
 
+
+
 func (s *Server) GenerarOrden(ctx context.Context, mensaje *OrdenGenerada) (*IdSeguimiento, error) {
 	id := mensaje.Id
 	producto := mensaje.Producto

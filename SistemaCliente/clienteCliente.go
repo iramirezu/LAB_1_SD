@@ -133,7 +133,11 @@ func main() {
 	var tiempoOrden int32
 	fmt.Println("Ingresa Tiempo entre Ordenes de Clientes: ")
 	 _, err := fmt.Scanf("%d", &tiempoOrden)
-	 
+	for err != nil {
+		fmt.Println("Input invalido")
+		fmt.Println("Ingresa Tiempo entre Ordenes de Clientes: ")
+		_, err = fmt.Scanf("%d", &tiempoOrden)
+	} 
 	go CrearCliente("pymes", tiempoOrden)
 	go CrearCliente("pymes", tiempoOrden)
 	go CrearCliente("retail", tiempoOrden)
