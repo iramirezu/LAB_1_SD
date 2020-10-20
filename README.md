@@ -36,35 +36,36 @@ go get  github.com/streadway/amqp
 protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative chatCliente/chatCliente.proto
 protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative chatCamion/chatCamion.proto
 
-# Luego en carpeta que contiene server
-go mod init github.com/PrestigioExpress/ServicioDistribuido
 
-
-# Intrucciones Sistema Logistica:
+# Intrucciones Sistema Logistica: (Dentro de Carpeta "SistemaLogistica")
 - Contiene dos servidores GRPC que se comunican con sistema Clientes y sistema Camiones
 - Contiene cliente de RabbitMQ para comunicacion con sistema Finanzas 
-Registro Paquetes: Registros/registroLogistica.csv
-Ejecutar:
-    go run server.go
+Registro Paquetes: SistemaLogistica/Registros/registroLogistica.csv
+Ejecutar: (Dentro de Carpeta "SistemaLogistica")
+    make run
 
-# Intrucciones Sistema Cliente:
+# Intrucciones Sistema Cliente: (Dentro de Carpeta "SistemaLogistica")
 - Contiene cliente GRPC que se comunica con sistema de Logistica
-Registro intrucciones Retail: Registros/retail.csv
-Registro intrucciones Pymes: Registros/pymes.csv
+Registro intrucciones Retail: SistemaLogistica/Registros/retail.csv
+Registro intrucciones Pymes: SistemaLogistica/Registros/pymes.csv
 
 Clientes: 
     - Existen Clientes tipo Pymes y Retail
     - Se pueden agregar clientes como "go routines" dentro del main
     - Estos usuarios se reparten los registros de intrucicones dependiendo del tipo de usuario
-Ejecutar:
-    go run clienteCliente.go
+Ejecutar: (Dentro de Carpeta "SistemaLogistica")
+    make run
 
-# Intrucciones Sistema Camiones:
+# Intrucciones Sistema Camiones: (Dentro de Carpeta "SistemaCamion")
 - Contiene cliente GRPC que se comunica con sistema de Logistica
-Registro Camion Retail 1: Registros/registroCamion1.csv
-Registro Camion Retail 2: Registros/registroCamion2.csv
-Registro Camion Normal 1: Registros/registroCamion3.csv
-Ejecutar:
-    go run clienteCamion.go
+Registro Camion Retail 1: SistemaCamion/Registros/registroCamion1.csv
+Registro Camion Retail 2: SistemaCamion/Registros/registroCamion2.csv
+Registro Camion Normal 1: SistemaCamion/Registros/registroCamion3.csv
+Ejecutar: (Dentro de Carpeta "SistemaCamion")
+    make run
 
-# Intrucciones Sistema Finanzas:
+# Intrucciones Sistema Finanzas: (Dentro de Carpeta "SistemaFinanzas")
+- Contiene servidor RabbitMQ que se comunica con sistema de Logistica
+Registro Finanzas: SistemaFinanzas/Registros/data.csv
+Ejecutar: (Dentro de Carpeta "SistemaFinanzas")
+    make run
