@@ -227,30 +227,6 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 				}
 		}
 	}
-	// Falta leer datos de las Colas 
-	// Leer infor de registro Logistica
-	random := rand.Intn(10000)
-	random2 := strconv.Itoa(random)
-	random3 := rand.Intn(2)
-	tipoAux := ""
-	if random3 == 0{
-		tipoAux = "retail"
-	}else if random3 == 1 {
-		tipoAux = "normal"
-	}else{
-		tipoAux = "prioritario"
-	}
-	id_r := random2;
-    tipo_r := tipoAux;
-    valor_r := "20";
-    origen_r := "origen";
-    destino_r := "destino";
-    intentos_r := "0";
-    fechaEntrega_r := "fechaEntrega"; 
-    exito_r := "0";
-    fmt.Println("Peticion de paquete desde camion: " + tipoCamion)
-	
-	return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 }
 
 func (s *Server) CompletarEntrega(ctx context.Context, mensaje *PaqueteCompletado) (*MensajeReply, error) {
