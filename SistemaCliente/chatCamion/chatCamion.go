@@ -9,7 +9,7 @@ import (
 	//"math/rand"
 	"golang.org/x/net/context"
 	"time"
-
+	"github.com/streadway/amqp"
 	//"time"
 )
 
@@ -19,6 +19,13 @@ type Server struct {
 var ColaPrioritaria[]string
 var ColaNormal[]string
 var ColaRetail[]string
+
+func failOnError(err error, msg string) {
+	if err != nil {
+			log.Fatalf("%s: %s", msg, err)
+			panic(fmt.Sprintf("%s: %s", msg, err))
+	}
+}
 
 // =========================================== FUNCIONES DE GRPC =======================================================================================
 
@@ -225,6 +232,7 @@ func (s *Server) CompletarEntrega(ctx context.Context, mensaje *PaqueteCompletad
 
 	fmt.Println("Entrega Completada recibida desde camion: " + id_c + ", " + tipo_c + ", " + valor_c + ", " + origen_c + ", " + destino_c + ", " + intentos_c + ", " + fechaEntrega_c + ", " + exito_c)
 	// actualizar linea a Registro Logistica
+	send_row_to_financiero(id_c, tipo_c, valor_c, intentos_c, fechaEntrega_c, exito_c) 
 	rows := leerFilasRegistro("registroLogistica")
 	for i := 0; i < len(rows); i++ {
 		if rows[i][0] == id_c {
@@ -239,6 +247,43 @@ func (s *Server) CompletarEntrega(ctx context.Context, mensaje *PaqueteCompletad
 
 
 
+// =================================== FUNCION RABBITMQ =====================
+// FUNCION REALIZA CONEXION CON LOGISTICA POR MEDIO DE RABBITMQ
+// SE Envia
+func send_row_to_financiero(idPaquete string, tipo string, valor string, intentos string, fechaEntrega string, exito string) {
+	var message string
+	message=fmt.Sprintf(`{"idPaquete": %s,"tipo": "%s","valor": %s,"intentos":%s,"fechaEntrega":"%s","exito":%s}`,idPaquete,tipo,valor,intentos,fechaEntrega, exito)
+	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	failOnError(err, "Failed to connect to RabbitMQ")
+	defer conn.Close()
+
+	ch, err := conn.Channel()
+	failOnError(err, "Failed to open a channel")
+	defer ch.Close()
+
+	q, err := ch.QueueDeclare(
+			"hello-queue", // name
+			false,         // durable
+			false,         // delete when unused
+			false,         // exclusive
+			false,         // no-wait
+			nil,           // arguments
+	)
+	failOnError(err, "Failed to declare a queue")
+	//body :=[]byte(`{"idPaquete": 1,"tipo": "normal","valor": 30,"intentos":2,"fechaEntrega":"03-10-2020 13:20","exito":1}`)
+	body:=[]byte(message)
+	err = ch.Publish(
+			"",     // exchange
+			q.Name, // routing key
+			false,  // mandatory
+			false,  // immediate
+			amqp.Publishing{
+					ContentType: "application/json",
+					Body:       body,
+			})
+	log.Printf(" [x] Sent %s", body)
+	failOnError(err, "Failed to publish a message")
+}
 
 
 // =========================================== FUNCIONES DE AYUDA =======================================================================================

@@ -20,6 +20,13 @@ var ColaPrioritaria[]string
 var ColaNormal[]string
 var ColaRetail[]string
 
+func failOnError(err error, msg string) {
+	if err != nil {
+			log.Fatalf("%s: %s", msg, err)
+			panic(fmt.Sprintf("%s: %s", msg, err))
+	}
+}
+
 // =========================================== FUNCIONES DE GRPC =======================================================================================
 
 func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*PaqueteRecibido, error) {
