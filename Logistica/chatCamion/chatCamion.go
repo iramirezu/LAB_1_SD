@@ -28,50 +28,14 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 	if len(rows) > 1 {
 		for i := 1; i < len(rows); i++ {
 			if rows[i][8] == "0" { // intentos == 0
-
+				rows[i][8] = "1"
+				escribirFilasRegistro("registroLogistica", rows)
 				if rows[i][2] == "normal"{
-					if len(ColaNormal) > 0{
-						encontrado := 0
-						for j := 0; j < len(ColaNormal); j++ {
-							if ColaNormal[j] == rows[i][1]{
-								encontrado = 1
-							}
-						}
-						if encontrado == 0 {
-
-							ColaNormal = append(ColaNormal, rows[i][1])
-						}
-					}else{
-						ColaNormal = append(ColaNormal, rows[i][1])
-					}
+					ColaNormal = append(ColaNormal, rows[i][1])
 				}else if rows[i][2] == "retail" {
-					if len(ColaRetail) > 0{
-						encontrado := 0
-						for j := 0; j < len(ColaRetail); j++ {
-							if ColaRetail[j] == rows[i][1]{
-								encontrado = 1
-							}
-						}
-						if encontrado == 0 {
-							ColaRetail = append(ColaRetail, rows[i][1])
-						}
-					}else{
-						ColaRetail = append(ColaRetail, rows[i][1])
-					}
+					ColaRetail = append(ColaRetail, rows[i][1])					
 				}else{ // prioritario
-					if len(ColaPrioritaria) > 0{
-						encontrado := 0
-						for j := 0; j < len(ColaPrioritaria); j++ {
-							if ColaPrioritaria[j] == rows[i][1]{
-								encontrado = 1
-							}
-						}
-						if encontrado == 0 {
-							ColaPrioritaria = append(ColaPrioritaria, rows[i][1])
-						}
-					}else{
-						ColaPrioritaria = append(ColaPrioritaria, rows[i][1])
-					}
+					ColaPrioritaria = append(ColaPrioritaria, rows[i][1])					
 				}
 			}
 		}
@@ -87,11 +51,11 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 			fechaEntrega_r := "0";
 			exito_r := "0";
 			fmt.Println("Peticion de paquete, NO hay entregas por repartir")
-			
 			return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 		}
 	}
 	
+	 
 	fmt.Println(ColaPrioritaria) 
 	fmt.Println(ColaNormal)
 	fmt.Println(ColaRetail)
@@ -194,44 +158,44 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 			}
 		} else{ // intenta entregar paquete normal
 			if len(ColaNormal) > 0{ // entrega paquete normal
-					// borra paquete de cola normal y encia paquete
-					idPaqueteEnviar := ColaNormal[0]
-					ColaNormal[0] = "" // Elimina Primer elemento de la cola
-					ColaNormal = ColaNormal[1:]
-					rows := leerFilasRegistro("registroLogistica")
-					for i := 0; i < len(rows); i++ {
-						if rows[i][0] == idPaqueteEnviar {
-							id_r := rows[i][1]
-							tipo_r := rows[i][2]
-							valor_r := rows[i][4]
-							origen_r := rows[i][5]
-							destino_r := rows[i][6]
-							intentos_r := rows[i][8]
-							rows[i][9] = fechaHoy()
-							fechaEntrega_r := rows[i][9]
-							exito_r := rows[i][10]
-							escribirFilasRegistro("registroLogistica", rows)
-							fmt.Println("Camion NORMAL realiza peticion de paquete, paquete NORMAL enviado")
-							
-							return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+				// borra paquete de cola normal y encia paquete
+				idPaqueteEnviar := ColaNormal[0]
+				ColaNormal[0] = "" // Elimina Primer elemento de la cola
+				ColaNormal = ColaNormal[1:]
+				rows := leerFilasRegistro("registroLogistica")
+				for i := 0; i < len(rows); i++ {
+					if rows[i][0] == idPaqueteEnviar {
+						id_r := rows[i][1]
+						tipo_r := rows[i][2]
+						valor_r := rows[i][4]
+						origen_r := rows[i][5]
+						destino_r := rows[i][6]
+						intentos_r := rows[i][8]
+						rows[i][9] = fechaHoy()
+						fechaEntrega_r := rows[i][9]
+						exito_r := rows[i][10]
+						escribirFilasRegistro("registroLogistica", rows)
+						fmt.Println("Camion NORMAL realiza peticion de paquete, paquete NORMAL enviado")
+						
+						return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 
-						}
 					}
-
-				} else{ // No hay paquetes por entregar
-					id_r := "0"
-					tipo_r := "0"
-					valor_r := "0"
-					origen_r := "0"
-					destino_r := "0"
-					intentos_r := "0"
-					fechaEntrega_r := "0"
-					exito_r := "0"
-					fmt.Println("Camion NORMAL realiza peticion de paquete, NO hay paquetes  normales o prioritarios por entregar")
-					
-					return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
-		
 				}
+
+			} else{ // No hay paquetes por entregar
+				id_r := "0"
+				tipo_r := "0"
+				valor_r := "0"
+				origen_r := "0"
+				destino_r := "0"
+				intentos_r := "0"
+				fechaEntrega_r := "0"
+				exito_r := "0"
+				fmt.Println("Camion NORMAL realiza peticion de paquete, NO hay paquetes  normales o prioritarios por entregar")
+				
+				return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+	
+			}
 		}
 	}
 	id_r := "0"
