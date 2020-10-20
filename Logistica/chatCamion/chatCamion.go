@@ -24,9 +24,11 @@ var ColaRetail[]string
 
 func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*PaqueteRecibido, error) {
 	rows := leerFilasRegistro("registroLogistica")
+	// si hay registros con 0 intentos que no se encuentran en las colas los agrega
 	if len(rows) > 1 {
 		for i := 1; i < len(rows); i++ {
 			if rows[i][8] == "0" { // intentos == 0
+
 				if rows[i][2] == "normal"{
 					if len(ColaNormal) > 0{
 						encontrado := 0
@@ -36,6 +38,7 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 							}
 						}
 						if encontrado == 0 {
+
 							ColaNormal = append(ColaNormal, rows[i][1])
 						}
 					}else{
@@ -73,6 +76,7 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 			}
 		}
 	}else{
+		// sin paquetes por repartir
 		if len(ColaPrioritaria) == 0 || len(ColaNormal) == 0 || len(ColaRetail) == 0 {
 			id_r := "0";
 			tipo_r := "0";
@@ -88,6 +92,9 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 		}
 	}
 	
+	fmt.Println("Cola Pr:  " + ColaPrioritaria) 
+	fmt.Println("ColaNormal:  " +ColaNormal)
+	fmt.Println("ColaRetail:  " + ColaRetail)
 	// LEE PAQUETES NUEVOS AGREGADOS (CON INTENTOS = 0 QUE NO SE ENCUENTRAN EN LA COLA)
 	// PAQUETES NUEVOS SON AGREGADOS A LA COLA
 
