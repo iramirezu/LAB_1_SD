@@ -173,7 +173,7 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 			valPaqueteAux := valPaquetesPorEntregar[indexPaqueteIntento]
 			tipoPaqueteAux := tipoPaquetesPorEntregar[indexPaqueteIntento]
 			maxIntentos := 0
-			intentos := agregarIntento(registroCamion, idPaqueteAux)
+			intentos := 1
 			if tipoPaqueteAux == "retail" {
 				maxIntentos = 3
 			}else{ // prioritario
@@ -236,6 +236,8 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 								fmt.Println("Envio Paquete: "+idPaqueteAux+" Completado, envio de datos a Logistica Completado" + response_c.Respuesta1)
 							}
 						}
+					}else{
+						intento = agregarIntento(registroCamion, idPaqueteAux)
 					} // else continua intentanto viaje con el otro paquete
 				}
 			}else { // 1 paquete -------------------------------------------
@@ -264,7 +266,7 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 					}
 					
 				}else{
-					if intentos == maxIntentos {
+					if intentos >= maxIntentos {
 						numPaquetes = numPaquetes - 1
 						// guarda cambios y envia confirmacion de orden NO ENTREGADA
 						completarEntrega(registroCamion, idPaqueteAux, "0") // Guarda Cambios
@@ -287,7 +289,9 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 								fmt.Println("Envio Paquete: "+idPaqueteAux+" Completado, envio de datos a Logistica Completado" + response_c.Respuesta1)
 							}
 						}
-					}// else sigue intentando entregar el paquete
+					} else {
+						intento = agregarIntento(registroCamion, idPaqueteAux)
+					}
 				}
 			}
 			
