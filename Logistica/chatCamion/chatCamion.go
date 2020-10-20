@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"encoding/csv"
-	"strconv"
+	//"strconv"
 	"os"
-	"math/rand"
+	//"math/rand"
 	"golang.org/x/net/context"
 	"time"
 
@@ -93,7 +93,7 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 
 	// PRIMER PAQUETE DE LA COLA ES ENTREGADO AL CAMION Y SE LE AGREGA FECHA ENTREGA
 	tipoCamion := mensaje.TipoCamion
-	if tipoCamion == "0" { // retail 1 y 2
+	if tipoCamion == "0" { // retail 1 y 2 -----------------------------------------------------------------------------------------
 		// entrega paquetes retail primero, luego entrega paquetes prioritarios
 		if len(ColaRetail) > 0{ // entrega paquete retail
 			// borra paquete de cola retail y envia paquete
@@ -159,7 +159,7 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 	
 			}
 		}
-	} else{ // normal
+	} else{ // normal ----------------------------------------------------------------------------------------------
 		// entrega prioritarios primero, luego entrega paquetes normales
 		if len(ColaPrioritaria) > 0{ // entrega paquete prioritario
 			// borra paquete de cola prioritario y envia paquete
@@ -227,6 +227,18 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 				}
 		}
 	}
+	id_r := "0"
+	tipo_r := "0"
+	valor_r := "0"
+	origen_r := "0"
+	destino_r := "0"
+	intentos_r := "0"
+	fechaEntrega_r := "0"
+	exito_r := "0"
+
+	return nil
+	//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
+	
 }
 
 func (s *Server) CompletarEntrega(ctx context.Context, mensaje *PaqueteCompletado) (*MensajeReply, error) {
