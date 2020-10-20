@@ -24,7 +24,7 @@ var ColaRetail[]string
 
 func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*PaqueteRecibido, error) {
 	rows := leerFilasRegistro("registroLogistica")
-	if len(rows) <= 1 {
+	if len(rows) > 1 {
 		for i := 1; i < len(rows); i++ {
 			if rows[i][8] == "0" { // intentos == 0
 				if rows[i][2] == "normal"{
