@@ -1,9 +1,1 @@
 id-paquete,tipo,valor,origen,destino,intentos,fecha-entrega,exito
-2081,retail,20,origen,destino,1,fechaEntrega,1
-4425,retail,20,origen,destino,1,fechaEntrega,1
-8162,normal,20,origen,destino,1,fechaEntrega,1
-4728,retail,20,origen,destino,3,fechaEntrega,1
-7387,normal,20,origen,destino,1,fechaEntrega,1
-5429,retail,20,origen,destino,1,fechaEntrega,1
-2433,normal,20,origen,destino,1,fechaEntrega,0
-4078,retail,20,origen,destino,0,fechaEntrega,0
