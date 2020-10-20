@@ -1,2 +1,35 @@
 timestamp,id-paquete,tipo,nombre,valor,origen,destino,seguimiento,intentos,fecha_entrega,exito
 0,1,2,3,4,5,6,7,8,9,10
+2006-01-02 15:04:05,SA1554KF,retail,Polera,10,tienda-A,casa-A,2,0,0,0
+2006-01-02 15:04:05,CC122,normal,Polera,9,pyme,casa-F,3,0,0,0
+2006-01-02 15:04:05,CC147,prioritario,Pantalón,11,pyme,casa-C,4,0,0,0
+2006-01-02 15:04:05,SA1684AH,retail,Pantalón,12,tienda-B,casa-B,5,0,0,0
+2006-01-02 15:04:05,CC175,prioritario,Bufanda,6,pyme,casa-A,6,0,0,0
+2006-01-02 15:04:05,CC124,normal,Abrigo,17,pyme,casa-U,7,0,0,0
+2006-01-02 15:04:05,CC147,prioritario,Sueter,14,pyme,casa-C,8,0,0,0
+2006-01-02 15:04:05,SA5698PO,retail,Televisor,110,tienda-C,casa-C,9,0,0,0
+2006-01-02 15:04:05,CC121,normal,Chaqueta,16,pyme,casa-X,10,0,0,0
+2006-01-02 15:04:05,CC454,normal,Polera,7,pyme,casa-Q,11,0,0,0
+2006-01-02 15:04:05,SA5897AS,retail,Consola de Videojuegos,95,tienda-A,casa-D,12,0,0,0
+2006-01-02 15:04:05,CC121,normal,Pantalón,10,pyme,casa-A,13,0,0,0
+2006-01-02 15:04:05,GG124,normal,Mani: 1 Kg,5,pyme,casa-A,14,0,0,0
+2006-01-02 15:04:05,SA1589GD,retail,Lavadora,100,tienda-B,casa-Q,15,0,0,0
+2006-01-02 15:04:05,GG257,normal,Pistachos: 200 g,4,pyme,casa-B,16,0,0,0
+2006-01-02 15:04:05,GG301,normal,Chia: 500 g,6,pyme,casa-D,17,0,0,0
+2006-01-02 15:04:05,SA8859SS,retail,Polerón,15,tienda-C,casa-A,18,0,0,0
+2006-01-02 15:04:05,GG568,normal,Almendras: 500 g,5,pyme,casa-L,19,0,0,0
+2006-01-02 15:04:05,GG458,prioritario,Arroz: 1 Kg,3,pyme,casa-C,20,0,0,0
+2006-01-02 15:04:05,SA5713AS,retail,Parca,20,tienda-B,casa-C,21,0,0,0
+2006-01-02 15:04:05,SA2589TR,retail,Pelota,5,tienda-C,casa-P,22,0,0,0
+2006-01-02 15:04:05,SA1597EF,retail,Raqueta,20,tienda-A,casa-F,23,0,0,0
+2006-01-02 15:04:05,SA3574FG,retail,Refrigerador,120,tienda-B,casa-U,24,0,0,0
+2006-01-02 15:04:05,SA3698HJ,retail,Tostador,25,tienda-C,casa-A,25,0,0,0
+2006-01-02 15:04:05,SA2563AS,retail,Perfume,15,tienda-A,casa-N,26,0,0,0
+2006-01-02 15:04:05,SA1937JH,retail,Tobillera,6,tienda-C,casa-N,27,0,0,0
+2006-01-02 15:04:05,SA5648AA,retail,Notebook,80,tienda-B,casa-A,28,0,0,0
+2006-01-02 15:04:05,SA6947GH,retail,Set de ollas,50,tienda-C,casa-C,29,0,0,0
+2006-01-02 15:04:05,SA5588HJ,retail,Parlante,25,tienda-C,casa-E,30,0,0,0
+2006-01-02 15:04:05,SA6644DS,retail,Lampara,30,tienda-A,casa-A,31,0,0,0
+2006-01-02 15:04:05,SA5974AA,retail,Sillón,105,tienda-C,casa-C,32,0,0,0
+2006-01-02 15:04:05,SA2596NH,retail,Mesa,90,tienda-A,casa-S,33,0,0,0
+2006-01-02 15:04:05,SA7748JK,retail,Cama,115,tienda-B,casa-A,34,0,0,0
