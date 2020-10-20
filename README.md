@@ -29,6 +29,9 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:/usr/local/go/bin
 
+# Instalacion de RabbitMQ
+go get  github.com/streadway/amqp
+
 # Generacion de gRPC:
 protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative chatCliente/chatCliente.proto
 protoc --go_out=. --go_opt=paths=source_relative  --go-grpc_out=require_unimplemented_servers=false:. --go-grpc_opt=paths=source_relative chatCamion/chatCamion.proto
