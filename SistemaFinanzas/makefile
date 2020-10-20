@@ -1,2 +1,2 @@
-financiero:
+run:
 	go run finanzas.go
