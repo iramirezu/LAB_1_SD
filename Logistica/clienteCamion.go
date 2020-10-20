@@ -237,7 +237,7 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 							}
 						}
 					}else{
-						intento = agregarIntento(registroCamion, idPaqueteAux)
+						intentos = agregarIntento(registroCamion, idPaqueteAux)
 					} // else continua intentanto viaje con el otro paquete
 				}
 			}else { // 1 paquete -------------------------------------------
@@ -290,7 +290,7 @@ func (scounter *SafeCounter) CrearCamion(numCamion int, key string){
 							}
 						}
 					} else {
-						intento = agregarIntento(registroCamion, idPaqueteAux)
+						intentos = agregarIntento(registroCamion, idPaqueteAux)
 					}
 				}
 			}
