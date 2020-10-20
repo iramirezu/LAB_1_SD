@@ -126,7 +126,7 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 						fechaEntrega_r = rows[i][9]
 						exito_r = rows[i][10]
 						escribirFilasRegistro("registroLogistica", rows)
-						fmt.Println("Camion RETAIL realiza peticion de paquete, paquete PRIORIORITARIO enviado")
+						fmt.Println("Camion RETAIL realiza peticion de paquete, paquete PRIORITARIO enviado")
 						
 						//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 
@@ -167,7 +167,7 @@ func (s *Server) PedirPaquete(ctx context.Context, mensaje *PeticionPaquete) (*P
 					fechaEntrega_r = rows[i][9]
 					exito_r = rows[i][10]
 					escribirFilasRegistro("registroLogistica", rows)
-					fmt.Println("Camion NORMAL realiza peticion de paquete, paquete PRIORIORITARIO enviado")
+					fmt.Println("Camion NORMAL realiza peticion de paquete, paquete PRIORITARIO enviado")
 					
 					//return &PaqueteRecibido{Id: id_r, Tipo:tipo_r, Valor:valor_r, Origen:origen_r, Destino:destino_r, Intentos:intentos_r, FechaEntrega:fechaEntrega_r, Exito:exito_r}, nil
 
@@ -247,12 +247,12 @@ func (s *Server) CompletarEntrega(ctx context.Context, mensaje *PaqueteCompletad
 
 
 
-// =================================== FUNCION RABBITMQ =====================
+// =================================== FUNCION RABBITMQ ====================================================================================
 // FUNCION REALIZA CONEXION CON LOGISTICA POR MEDIO DE RABBITMQ
 // SE Envia
 func send_row_to_financiero(idPaquete string, tipo string, valor string, intentos string, fechaEntrega string, exito string) {
 	var message string
-	message=fmt.Sprintf(`{"idPaquete": %s,"tipo": "%s","valor": %s,"intentos":%s,"fechaEntrega":"%s","exito":%s}`,idPaquete,tipo,valor,intentos,fechaEntrega, exito)
+	message=fmt.Sprintf(`{"idPaquete": "%s","tipo": "%s","valor": %s,"intentos":%s,"fechaEntrega":"%s","exito":%s}`,idPaquete,tipo,valor,intentos,fechaEntrega, exito)
 	conn, err := amqp.Dial("amqp://sd:sd@dist127:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
